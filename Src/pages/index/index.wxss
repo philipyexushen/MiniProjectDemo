@@ -31,7 +31,7 @@ button:last-child{
 .swiper-page-section{
   width: 100%;
   box-sizing: border-box;
-  margin-top: 70%;
+  margin-top: 60%;
 }
 
 .userinfo {
@@ -39,7 +39,7 @@ button:last-child{
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-top: 0%;
+  margin-top: -7%;
   justify-content: center;
 }
 
@@ -52,7 +52,7 @@ button:last-child{
 }
 
 .userinfo-nickname {
-  color: #aaa;
+  color: #2b2e2d;
 }
 
 .usermotto {
@@ -80,8 +80,8 @@ button:last-child{
 .help_image{
   justify-content:right;
   position: absolute;
-  margin-left: 90%;
-  margin-top: 5%;
+  margin-left: 92%;
+  margin-top: 2%;
   height: 20px;
   width: 20px;
 }
@@ -111,7 +111,7 @@ button:last-child{
     display: flex;
     flex-flow: row;
     position: absolute;
-    margin-top: 55%;
+    margin-top: 47%;
     box-sizing: border-box;
     padding: 0 80rpx;
 }
@@ -152,4 +152,11 @@ button:last-child{
 }
 .dialog--show .dialog__mask {
   display: block;
+}
+
+.gifts_page_item{
+  margin-top:2%; 
+  width:100%; 
+  height: 230rpx;
+  display: inline-block
 }

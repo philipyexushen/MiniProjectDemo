@@ -2,7 +2,7 @@
 <import src="../common/dialog.wxml" />
 
 <view class="page">
-  <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
+  <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;position:fixed;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
   <image class='help_image' src='{{helpImageSrc}}' bindtap='openHelpPage'></image>
   <view class="swiper-tab">
     <view class="swiper-tab-item {{currentTab==0?'swiper-tab-item-active':''}}" data-current="0" bindtap="clickTab">

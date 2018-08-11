@@ -25,7 +25,10 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     currentTab: 0,
-    showGiftsPage: false
+    showGiftsPage: false,
+
+    isDownloadingGiftsPage: true,
+
   },
 
   imageLoad: function (e) {
