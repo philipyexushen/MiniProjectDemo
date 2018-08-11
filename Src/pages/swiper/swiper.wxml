@@ -1,0 +1,27 @@
+<import src="../common/head.wxml" />
+<import src="../common/foot.wxml" />
+
+<view class="page">
+  <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
+  <view class="page-body">
+    <view class="swiper-page-section">
+      <swiper next-margin='35px'
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
+        style="height:268px;"
+        >
+        <block wx:for="{{background}}" wx:key="*this">
+          <swiper-item>
+            <view class="swiper-item {{item}}">
+              <image class='.swiper-item-background' src='../images/column_swiper.png'></image>
+            </view>
+          </swiper-item>  
+        </block>
+      </swiper>
+    </view>
+  </view>
+  <view class="userinfo">
+    <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+  <template is="foot" />
+</view>
