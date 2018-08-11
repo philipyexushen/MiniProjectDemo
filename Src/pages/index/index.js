@@ -4,7 +4,7 @@ var app = getApp();
 
 Page({
   data: {
-    background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
+    background: ['', '', ''],
     indicatorDots: true,
     vertical: false,
     autoplay: false,
@@ -16,10 +16,13 @@ Page({
     backgroundSrc: '../images/background.png',
     swiperBackgroundSrc: '../images/column_swiper.png',
     challangeImageSrc:'../images/challenge.png',
+    helpImageSrc: '../images/help.png',
+    watchRankingListImageSrc: '../images/watch_ranking_list.png',
 
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    currentTab: 0
   },
 
   imageLoad: function (e) {
@@ -77,8 +80,22 @@ Page({
   // 按下挑战图片，打开答题页
   openQuesionPage: function(){
     wx.navigateTo({
-      url: '../logs/logs'
+      url: '../question_page/question_page'
     })
+  },
+   openHelpPage: function () {
+    wx.navigateTo({
+      url: '../help_page/help_page'
+    })
+  },
+  clickTab: function (e) {
+    if (this.data.currentTab === e.target.dataset.current) {
+      return false;
+    } else {
+      this.setData({
+        currentTab: e.target.dataset.current
+      })
+    }
   }
 })
 

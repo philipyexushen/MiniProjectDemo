@@ -1,7 +1,9 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/question_page/question_page",
+    "pages/help_page/help_page"
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -63,8 +63,8 @@ button:last-child{
 }
 .swiper-item-background{
   position: absolute;
-  height: 90%;
-  width: 90%;
+  height: 95%;
+  width: 95%;
   margin-left: 5%;
 }
 
@@ -75,4 +75,42 @@ button:last-child{
   width: 59px;
   margin-left: 65%;
   margin-top: 30%
+}
+.help_image{
+  justify-content:right;
+  position: absolute;
+  margin-left: 90%;
+  margin-top: 5%;
+  height: 20px;
+  width: 20px;
+}
+.watch-ranking-list-image{
+  justify-content:center;
+  position: absolute;
+  height: 12px;
+  width: 60px;
+  margin-left: 75%;
+  margin-top: 5%
+}
+.swiper-tab{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 88rpx;
+    line-height: 88rpx;
+    display: flex;
+    flex-flow: row;
+    position: absolute;
+    margin-top: 55%;
+    box-sizing: border-box;
+    padding: 0 80rpx;
+}
+.swiper-tab-item{
+    width: 30%; 
+    color:#ffffff;
+    font-weight: bold;
+}
+.active{
+    color:#fde93c;
 }
