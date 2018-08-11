@@ -1,0 +1,13 @@
+<template name="giftsDialogView">
+  <view class="dialog {{ showGiftsPage ? 'dialog_show' : '' }}">
+    <view class="dialog_mask" bindtap="onClickedGiftsDialogView" />
+    <view class="dialog_container">
+
+      <!--  //此区域自定义视图  -->
+      <view class="flex_Center" style="height:500rpx;background:white;"> 
+        <view style="color:#333;font-size:30rpx;">haha</view>
+      </view>
+
+    </view>
+  </view>
+</template>
