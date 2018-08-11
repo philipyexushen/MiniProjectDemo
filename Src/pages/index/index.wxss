@@ -11,6 +11,7 @@ button:last-child{
 }
 .swiper-item{
   display: block;
+  position: relative;
   height: 268px;
 }
 .page-section-title{
@@ -61,6 +62,17 @@ button:last-child{
   position: absolute
 }
 .swiper-item-background{
-  position: relative;
-  margin-left: 20px;
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.challenge_image{
+  justify-content:center;
+  position: absolute;
+  height: 31px;
+  width: 59px;
+  margin-left: 65%;
+  margin-top: 30%
 }

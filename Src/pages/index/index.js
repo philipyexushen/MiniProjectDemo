@@ -14,6 +14,8 @@ Page({
     backgroundImageWidth: 0,
     backgroundImageHeight: 0,
     backgroundSrc: '../images/background.png',
+    swiperBackgroundSrc: '../images/column_swiper.png',
+    challangeImageSrc:'../images/challenge.png',
 
     userInfo: {},
     hasUserInfo: false,
@@ -62,12 +64,20 @@ Page({
       })
     }
   },
+
   getUserInfo: function (e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
+    })
+  },
+
+  // 按下挑战图片，打开答题页
+  openQuesionPage: function(){
+    wx.navigateTo({
+      url: '../logs/logs'
     })
   }
 })

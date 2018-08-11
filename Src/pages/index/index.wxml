@@ -7,12 +7,12 @@
     <view class="swiper-page-section">
       <swiper next-margin='35px'
         autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
-        style="height:268px;"
-        >
+        style="height:286px;">
         <block wx:for="{{background}}" wx:key="*this">
           <swiper-item>
             <view class="swiper-item {{item}}">
-              <image class='.swiper-item-background' src='../images/column_swiper.png'></image>
+              <image class='swiper-item-background' src='{{swiperBackgroundSrc}}' mode="cover"></image>
+              <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" ></image>
             </view>
           </swiper-item>  
         </block>
