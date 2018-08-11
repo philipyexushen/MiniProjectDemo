@@ -14,6 +14,31 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+function imageResize(e) {
+  var imageSize = {};
+  var originalWidth = e.detail.width;//图片原始宽
+  var originalHeight = e.detail.height;//图片原始高
+  var originalScale = originalHeight / originalWidth;//图片高宽比
+  console.log('originalWidth: ' + originalWidth)
+  console.log('originalHeight: ' + originalHeight)
+  //获取屏幕宽高
+  wx.getSystemInfo({
+    success: function (res) {
+      var windowWidth = res.windowWidth;
+      var windowHeight = res.windowHeight;
+      var windowscale = windowHeight / windowWidth;
+      console.log('windowWidth: ' + windowWidth)
+      console.log('windowHeight: ' + windowHeight)
+      imageSize.imageWidth = windowWidth;
+      imageSize.imageHeight = (windowWidth * originalHeight) / originalWidth;
+    }
+  })
+  console.log('缩放后的宽: ' + imageSize.imageWidth)
+  console.log('缩放后的高: ' + imageSize.imageHeight)
+  return imageSize;
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  imageResize: imageResize
 }

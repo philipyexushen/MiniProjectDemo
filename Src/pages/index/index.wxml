@@ -1,14 +1,27 @@
-<!--index.wxml-->
-<view class="container" style="background-image: url('data:image/png;base64,Li4vaW1hZ2VzL2JhY2tncm91bmQucG5n')">
+<import src="../common/head.wxml" />
+<import src="../common/foot.wxml" />
+
+<view class="page">
+  <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
+  <view class="page-body">
+    <view class="swiper-page-section">
+      <swiper next-margin='35px'
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
+        style="height:268px;"
+        >
+        <block wx:for="{{background}}" wx:key="*this">
+          <swiper-item>
+            <view class="swiper-item {{item}}">
+              <image class='.swiper-item-background' src='../images/column_swiper.png'></image>
+            </view>
+          </swiper-item>  
+        </block>
+      </swiper>
+    </view>
+  </view>
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+    <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-    <button bindtap='clickMe'>{{button_text}}</button>
-  </view>
+  <template is="foot" />
 </view>
