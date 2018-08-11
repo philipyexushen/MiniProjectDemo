@@ -48,6 +48,7 @@ button:last-child{
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
+  overflow: hidden
 }
 
 .userinfo-nickname {
@@ -92,6 +93,14 @@ button:last-child{
   margin-left: 75%;
   margin-top: 5%
 }
+.my-gifts-image{
+  justify-content:center;
+  position: absolute;
+  height: 120rpx;
+  width: 120rpx;
+  margin-left: 78%;
+  margin-top: -20%
+}
 .swiper-tab{
     width: 100%;
     text-align: center;
@@ -111,6 +120,36 @@ button:last-child{
     color:#ffffff;
     font-weight: bold;
 }
-.active{
+.swiper-tab-item-active{
     color:#fde93c;
+}
+
+.dialog_mask {
+  position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;background: rgba(0, 0, 0, 0.5);display: none;
+}
+.dialog_container {
+  position: fixed;bottom: 0;width: 750rpx;background: white;transform: translateY(150%);transition: all 0.4s ease;z-index: 11;
+}
+.dialog_show .dialog_container {
+  transform: translateY(0);
+}
+.dialog_show .dialog_mask {
+  display: block;
+}
+.flex_Center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog__mask {
+  position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;background: rgba(0, 0, 0, 0.5);display: none;
+}
+.dialog__container {
+  position: fixed;bottom: 0;width: 750rpx;transform: translateY(150%);transition: all 0.4s ease;z-index: 11;height:100%;
+}
+.dialog--show .dialog__container {
+  transform: translateY(0);
+}
+.dialog--show .dialog__mask {
+  display: block;
 }

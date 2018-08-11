@@ -18,11 +18,14 @@ Page({
     challangeImageSrc:'../images/challenge.png',
     helpImageSrc: '../images/help.png',
     watchRankingListImageSrc: '../images/watch_ranking_list.png',
+    tinyCircleImageSrc: '../images/tiny_circle.png',
+    myGiftsImageSrc: '../images/my_gifts.png',
 
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    currentTab: 0
+    currentTab: 0,
+    showGiftsPage: false
   },
 
   imageLoad: function (e) {
@@ -55,6 +58,7 @@ Page({
         })
       }
     } else {
+      console.log("fuck")
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
@@ -84,8 +88,9 @@ Page({
     })
   },
    openHelpPage: function () {
-    wx.navigateTo({
-      url: '../help_page/help_page'
+     console.log("openHelpPage call")
+      wx.navigateTo({
+        url: '../help_page/help_page'
     })
   },
   clickTab: function (e) {
@@ -96,6 +101,18 @@ Page({
         currentTab: e.target.dataset.current
       })
     }
-  }
+  },
+  onGiftsImageClick: function (e) {
+    console.log("onGiftsImageClick")
+    this.setData({
+      showGiftsPage: !this.data.showGiftsPage
+    });
+  },
+  onClickedGiftsDialogView: function () {
+    this.setData({
+      showGiftsPage: !this.data.showGiftsPage
+    });
+  },
 })
+
 
