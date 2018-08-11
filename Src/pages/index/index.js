@@ -5,6 +5,7 @@ const app = getApp()
 Page({
   data: {
     motto: 'Hello World 123',
+    button_text: '测试',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -50,5 +51,8 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  clickMe: function(e){
+    this.setData({ button_text: 'Philip'})
   }
 })

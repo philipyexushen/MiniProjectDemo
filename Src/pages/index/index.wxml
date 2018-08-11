@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container" style="background-image: url('data:image/png;base64,Li4vaW1hZ2VzL2JhY2tncm91bmQucG5n')">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
@@ -9,5 +9,6 @@
   </view>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
+    <button bindtap='clickMe'>{{button_text}}</button>
   </view>
 </view>
