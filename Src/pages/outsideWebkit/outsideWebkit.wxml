@@ -1,0 +1,2 @@
+<!--pages/outsideLink/outsideWebkit.wxml-->
+<web-view src="{{link}}"></web-view>
