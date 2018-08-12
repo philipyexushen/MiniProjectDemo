@@ -1,1 +1,66 @@
 /* pages/question_page/quesion_page.wxss */
+
+.background-image{
+  z-index: -1;
+  position: absolute
+}
+.userinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  position: absolute;
+}
+
+.userinfo-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userinfo-nickname {
+  align-items: left;
+  color: #2b2e2d;
+  margin-top: 10%;
+}
+.tick-timer{
+  position: absolute;
+  top: 15%;
+  text-align: center;
+  width: 100rpx;
+  left: 43%
+}
+.tick-timer-text{
+  width: 20rpx;
+  color: #2b2e2d;
+  font-size: xx-large;
+  font-weight:500;
+  left: 50%
+}
+.answer-area{
+  top: 30%;
+  width: 100%;
+  position: absolute
+}
+.answer-area-title{
+  position: relative;
+  display: flex;
+  text-align: center;
+  justify-content:center; 
+  align-items:center;
+}
+.answer-area-problem-content-area{
+  position: relative;
+  display: flex;
+  text-align: left;
+  justify-content:left; 
+  align-items:center;
+}
+.answer-area-problem-content{
+  width: 400rpx;
+  position: relative;
+  display: flex;
+  text-align: left;
+  justify-content:left; 
+}

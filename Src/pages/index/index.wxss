@@ -32,15 +32,16 @@ button:last-child{
   width: 100%;
   box-sizing: border-box;
   margin-top: 60%;
+  position: absolute
 }
 
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  margin-top: -7%;
-  justify-content: center;
+  position: absolute;
+  top: 80%;
+  left: 38%;
 }
 
 .userinfo-avatar {
@@ -98,8 +99,8 @@ button:last-child{
   position: absolute;
   height: 120rpx;
   width: 120rpx;
-  margin-left: 78%;
-  margin-top: -20%
+  left: 75%;
+  top: 85%
 }
 .swiper-tab{
     width: 100%;

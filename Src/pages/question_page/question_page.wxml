@@ -1,2 +1,26 @@
 <!--pages/question_page/quesion_page.wxml-->
-<text>pages/question_page/quesion_page.wxml</text>
+<view class='page'>
+  <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;position:fixed;" src="{{backgroundSrc}}" bindload="backgroundImageLoad"></image>
+  <view class='tick-timer'>
+      <text class='tick-timer-text'>{{tick}}</text>
+  </view>
+  <view style='position:absolute;margin-top:5%;margin-left:5%'>
+    <view class="userinfo">
+      <open-data type="userAvatarUrl" class='userinfo-avatar'></open-data>
+      <open-data type="userNickName" class='userinfo-nickname'></open-data>
+    </view>
+  </view>
+  <view class='answer-area'>
+    <view class='answer-area-title'>
+      {{answer_title}}
+    </view>
+    <view class='answer-area-problem-content-area'>
+      <view class='answer-area-problem-content'>
+        {{problems[currentPage].q_content}}
+      </view>
+      <view>
+        <image></image>
+      </view>
+    </view>
+  </view>
+</view>

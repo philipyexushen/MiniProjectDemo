@@ -1,5 +1,5 @@
 // pages/swiper/swiper.js
-var imageUtil = require('../../utils/util.js');
+var util = require('../../utils/util.js');
 var app = getApp();
 
 Page({
@@ -27,12 +27,12 @@ Page({
     currentTab: 0,
     showGiftsPage: false,
 
-    isDownloadingGiftsPage: true,
-
+    isDownloadingGiftsPage: false,
+    gifts_rolls: []
   },
 
   imageLoad: function (e) {
-    var imageSize = imageUtil.imageResize(e);
+    var imageSize = util.imageResize(e);
     this.setData({
       backgroundImageWidth: imageSize.imageWidth,
       backgroundImageHeight: imageSize.imageHeight
@@ -107,9 +107,14 @@ Page({
   },
   onGiftsImageClick: function (e) {
     console.log("onGiftsImageClick")
+    this.isDownloadingGiftsPage = true
     this.setData({
       showGiftsPage: !this.data.showGiftsPage
     });
+
+    //test
+    this.gifts_rolls = util.getGiftsDiscountRoll()
+    this.isDownloadingGiftsPage = false
   },
   onClickedGiftsDialogView: function () {
     this.setData({

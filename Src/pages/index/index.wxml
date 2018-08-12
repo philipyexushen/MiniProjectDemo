@@ -41,4 +41,4 @@
   </view>
   <image class='my-gifts-image' src='{{myGiftsImageSrc}}' bindtap='onGiftsImageClick'></image>
 </view>
-<template is="giftsDialogView" data="{{showGiftsPage:showGiftsPage}}" />
+<template is="giftsDialogView" data="{{showGiftsPage:showGiftsPage, isDownloadingGiftsPage:isDownloadingGiftsPage, gifts_rolls:gifts_rolls}}" />
