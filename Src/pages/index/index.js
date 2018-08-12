@@ -20,6 +20,7 @@ Page({
     watchRankingListImageSrc: '../images/watch_ranking_list.png',
     tinyCircleImageSrc: '../images/tiny_circle.png',
     myGiftsImageSrc: '../images/my_gifts.png',
+    emptyRollsPageSrc: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/empty-gifts-page.png',
 
     userInfo: {},
     hasUserInfo: false,
@@ -89,6 +90,12 @@ Page({
     wx.navigateTo({
       url: '../question_page/question_page'
     })
+  },
+  openConversionGiftsPage: function () {
+    util.setOutSideLink("http://mall.video.qq.com/home?&ptag=4_6.2.0.21726_copy")
+      wx.navigateTo({
+        url: '../outsideWebkit/outsideWebkit'
+      })
   },
    openHelpPage: function () {
      console.log("openHelpPage call")

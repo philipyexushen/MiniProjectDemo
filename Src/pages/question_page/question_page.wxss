@@ -39,7 +39,7 @@
   left: 50%
 }
 .answer-area{
-  top: 30%;
+  top: 28%;
   width: 100%;
   position: absolute
 }
@@ -49,18 +49,86 @@
   text-align: center;
   justify-content:center; 
   align-items:center;
+  font-size: small;
 }
 .answer-area-problem-content-area{
   position: relative;
   display: flex;
-  text-align: left;
-  justify-content:left; 
+  text-align: center;
+  justify-content:center; 
   align-items:center;
+  font-size:larger;
+  padding: 0 60rpx;
 }
 .answer-area-problem-content{
-  width: 400rpx;
   position: relative;
   display: flex;
-  text-align: left;
-  justify-content:left; 
+  text-align: center;
+  justify-content:center; 
+}
+.answer-area-problem-pic{
+  width: 200rpx;
+  position: relative;
+  display: flex;
+  text-align: center;
+  margin-left: 2%;
+}
+.answer-area-select{
+  position: relative;
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20rpx 60rpx;
+  margin-top: 2%;
+  justify-content:center; 
+  align-items:center;
+}
+.answer-tab{
+  width: 250rpx;
+  padding: 0, 20rpx;
+  text-align: center;
+  justify-content:center; 
+  margin: 20rpx;
+  font-size:larger;
+  border-radius: 30rpx;
+  overflow: hidden;
+}
+.answer-tab-normal{
+  background-color: #9de9cd;
+}
+.answer-tab-correct{
+  background-color: #05fd26;
+}
+.answer-tab-error{
+  background-color: #ff1313;
+}
+.dialog_mask {
+  position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;background: rgba(0, 0, 0, 0.5);display: none;
+}
+.dialog_container {
+  position: fixed;bottom: 0;width: 750rpx;background: white;transform: translateY(150%);transition: all 0.4s ease;z-index: 11;
+}
+.dialog_show .dialog_container {
+  transform: translateY(0);
+}
+.dialog_show .dialog_mask {
+  display: block;
+}
+.flex_Center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog__mask {
+  position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;background: rgba(0, 0, 0, 0.5);display: none;
+}
+.dialog__container {
+  position: fixed;bottom: 0;width: 750rpx;transform: translateY(150%);transition: all 0.4s ease;z-index: 11;height:100%;
+}
+.dialog--show .dialog__container {
+  transform: translateY(0);
+}
+.dialog--show .dialog__mask {
+  display: block;
 }

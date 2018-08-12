@@ -28,7 +28,7 @@
             <view class="swiper-item {{item}}">
               <image class='swiper-item-background' src='{{swiperBackgroundSrc}}' mode="cover"></image>
               <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
-              <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
+              <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openConversionGiftsPage'></image>
             </view>
           </swiper-item>  
         </block>
@@ -41,4 +41,4 @@
   </view>
   <image class='my-gifts-image' src='{{myGiftsImageSrc}}' bindtap='onGiftsImageClick'></image>
 </view>
-<template is="giftsDialogView" data="{{showGiftsPage:showGiftsPage, isDownloadingGiftsPage:isDownloadingGiftsPage, gifts_rolls:gifts_rolls}}" />
+<template is="giftsDialogView" data="{{showGiftsPage:showGiftsPage, isDownloadingGiftsPage:isDownloadingGiftsPage, gifts_rolls:gifts_rolls, emptyRollsPageSrc:emptyRollsPageSrc}}" />

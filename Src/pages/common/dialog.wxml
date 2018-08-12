@@ -11,8 +11,20 @@
         </block>
       </scroll-view>
       <view wx:else style="height:600rpx;">
-          <image src='../images/empty-gifts-page.png' style='width:100%;height: 100%;'></image>
+          <image src='{{emptyRollsPageSrc}}' style='width:100%;height: 100%;'></image>
       </view>
     </view>
+  </view>
+</template>
+
+<template name="failedDialog">
+  <view class="dialog {{ show ? 'dialog--show' : '' }}">
+    <view class="dialog__mask"/>
+     <view class="dialog__container" style="display:flex;align-items:center;justify-content:center;flex-direction:column;"> 
+        <!--  //此区域自定义视图  -->
+        <view class="flex_Center" style="width:560rpx;height:640rpx;">
+          <image src='{{failedDialogBackgroundSrc}}' style="width:560rpx;height:640rpx;"/>
+        </view>
+    </view> 
   </view>
 </template>
