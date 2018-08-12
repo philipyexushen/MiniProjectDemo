@@ -40,6 +40,37 @@ Page({
     })
   },
 
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '震惊！！！',
+      path: '/pages/index/index',
+      success: function (res) {
+        console.log(res)
+        wx.getShareInfo({
+          shareTicket: res.shareTickets[0],
+          success: function (res) {
+            console.log(res)
+            wx.showModal({
+              content: "测试点1" + JSON.stringify(res),
+              showCancel: false
+            });
+          },
+          fail: function (res) {
+            console.log(res)
+            wx.showModal({
+              content: "测试点2" + JSON.stringify(res),
+              showCancel: false
+            });
+          }
+        })
+      }
+    }
+  },
+
   bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'

@@ -1,4 +1,3 @@
-//logs.js
 const util = require('../../utils/util.js')
 const network = require('../../network/requester.js')
 
@@ -86,8 +85,19 @@ Page({
     userId : 0,
     qsId : 0,
 
-    showFailedDialog : false,
-    failedDialogBackgroundSrc: '../images/question_page/failed_dialog_background.png'
+    showResultPageDialog : false,
+    resultPageDialogBackgroundSrc: '../images/question_page/failed_dialog_background.png',
+    giftRollImageSrc: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_roll_image.png',
+
+    titleFirstLineOriginal:"您挑战到了第%s关\n",
+    titleSecondLineOriginal: "超过%s%的人\n",
+    titleThirdLineOriginal: "获得一张%s点赞优惠券",
+
+    titleFirstLine: "",
+    titleSecondLine: "",
+    titleThirdLine: "",
+
+    fakeRank : [10,15,20,25,30,50,60,80,90,99]
   },
   backgroundImageLoad: function (e) {
     var imageSize = util.imageResize(e);
@@ -96,21 +106,24 @@ Page({
       backgroundImageHeight: imageSize.imageHeight
     })
   },
-  onShow: function (e) {
+  onLoad: function (e) {
     console.log("onShow question_page");
     var that = this
     this.resetTimer()
     this.setNewTitle(1)
 
     let data = { user_id: 1, qs_name: "test" }
-    network.post(data, res => {
+    //let data1 = { number: 4, qs_id: 1 }
+    console.log(network.hostGetQuestion)
+    network.post(network.hostGetQuestion, data, res => {
       that.setData({
         problems: res.data
       })
     })
-  },
-  onHide: function (e) {
-    this.claer()
+
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
   onUnload : function(e){
     this.claer()
@@ -143,13 +156,23 @@ Page({
   onError: function (){
     console.log("no!")
     this.setData({
-      showFailedDialog : true
+      titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
+      titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", this.data.fakeRank[this.data.currentPage]),
+      titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
+      showResultPageDialog : true
     })
   },
   onSuccessful: function (that){
+    // 全答对了！
+    if (that.data.currentPage + 1 == that.data.problems.length){
+
+      return
+    }
+
     that.setData({
       currentPage: that.data.currentPage + 1
     })
+
     that.setNewTitle(that.data.currentPage + 1)
 
     var options = that.data.problems[that.data.currentPage].options
@@ -164,7 +187,6 @@ Page({
           break
       }
     }
-    console.log("fuck1!!!!!!!!!!" + that.data.answerCorrect)
     that.setData({
       answerTabClicked: -1,
       answerClicked: false,
@@ -197,6 +219,43 @@ Page({
         this.onError()
       }
     }, 1000)
+  },
+  onResultPageDialogCloseButtonClicked : function(e){
+    // TODO: 要改为跳转到排行榜
+    wx.navigateBack({delta : 1})
+  },
+  onGiftRollImageClicked: function (e) {
+    util.openShopPage()
+  },
+  openConversionGiftsPage: function () {
+    util.openShopPage()
+  },
+  onShareAppMessage: function (res) {
+    return {
+      title: '答题赢周边大作战',
+      path: '/pages/index/index',
+      success: function (res) {
+        console.log(res)
+        var shareTicket = (res.shareTickets && res.shareTickets[0]) || ''
+        /* 官网的Tip: 由于策略变动，小程序群相关能力进行调整，
+         * 开发者可先使用wx.getShareInfo接口中的群ID进行功能开发。
+         */
+        wx.getShareInfo({
+          // 把票据带上
+          shareTicket: shareTicket,
+          success: function (res) {
+            console.log(res)
+            // TODO:分享成功后，可以复活
+          },
+          fail: function (res) {
+            console.log(res)
+          }
+        })
+      },
+      fail: function (res) {
+        console.log(res)
+      }
+    }
   },
   claer : function(){
     clearInterval(this.data.timer)

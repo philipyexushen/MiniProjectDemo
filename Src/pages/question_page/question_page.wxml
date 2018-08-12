@@ -2,6 +2,32 @@
 <import src="../common/head.wxml" />
 <import src="../common/dialog.wxml" />
 
+<template name="resultPageDialog">
+  <view class="dialog {{ show ? 'dialog--show' : '' }}">
+    <view class="dialog__mask"/>
+     <view class="dialog__container" style="display:flex;align-items:center;justify-content:center;flex-direction:column;"> 
+        <!--  //此区域自定义视图  -->
+        <view class="flex_Center" style="width:600rpx;height:686rpx;position:absolute;display:flex;flex-direction:column;justify-content:center; align-items:center;">
+          <image src='{{resultPageDialogBackgroundSrc}}' style="width:600rpx;height:686rpx;position:absolute; z-index: 0;"/>
+          <image src='../images/close.png' style='height:60rpx;width:60rpx;position:absolute;right:5%;top:5%;z-index:11;' bindtap='onResultPageDialogCloseButtonClicked'></image>
+          <view style='position:relative;margin:30rpx;text-align: center;justify-content:center; align-items:center;margin-top:40rpx'>
+            <text style='font-size:large'>{{titleFirstLine}}</text>
+            <text style='font-size:large;color: #d6a000;'>{{titleSecondLine}}</text>
+            <text style='font-size:large'>{{titleThirdLine}}\n</text>
+            <text style='font-size:small'>分享到微信群，可以再获得一次挑战机会喔~\n</text>
+          </view>
+          <view style='width:100%;text-align:center;z-index: 11;'>
+            <image src='{{giftRollImageSrc}}' style="width:500rpx;" mode='widthFix' bindtap='onGiftRollImageClicked'></image>
+          </view>
+          <view style='width:80%;text-align:center;align-items:center;justify-content:center; z-index: 11;display:flex;margin:30rpx;'>
+            <button open-type="share" class='result-page-button'>分享得机会</button>
+            <button class='result-page-button' bindtap='openConversionGiftsPage'>兑换奖品</button>
+          </view>
+        </view>
+    </view> 
+  </view>
+</template>
+
 <view class='page'>
   <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;position:fixed;" src="{{backgroundSrc}}" bindload="backgroundImageLoad"></image>
   <view class='tick-timer'>
@@ -35,4 +61,4 @@
       </view>
   </view>
 </view>
-<template is="failedDialog" data="{{show:showFailedDialog, failedDialogBackgroundSrc:failedDialogBackgroundSrc}}" />
+<template is="resultPageDialog" data="{{show:showResultPageDialog, resultPageDialogBackgroundSrc:resultPageDialogBackgroundSrc, giftRollImageSrc:giftRollImageSrc,titleFirstLine:titleFirstLine,titleSecondLine:titleSecondLine,titleThirdLine:titleThirdLine}}" />
