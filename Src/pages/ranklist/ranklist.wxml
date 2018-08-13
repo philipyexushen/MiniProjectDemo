@@ -1,0 +1,100 @@
+<!--pages/ranklist/ranklist.wxml-->
+<!--index.wxml-->
+<view class="container" style=''>
+  <image wx:if="{{model=='iPhone X'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphoneX.png" mode="top left"></image>
+  <image wx:if="{{model=='iPhone 7' || model=='iPhone 6'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7.png" mode="top left"></image>
+  <image wx:if="{{model=='iPhone 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone5.png" mode="top left"></image>
+  <image wx:if="{{model=='Nexus 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-Nexus5.png" mode="top left"></image>
+  <image wx:else class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7plus.png" mode="top left"></image>
+  <view class='title' >
+    <text class='text-hl'>今日排行</text>
+  </view>
+  <scroll-view class='NavTable'  scroll-x='true' scroll-left="{{NavTableScorell}}">
+    <view wx:for="{{QsQueq}}" wx:for-item="qsItem" bindtap="tapNavTable" id="NavTable-{{index}}" class="NavTable-item {{currentTabIdx==index? 'active':''}}" data-tab-idx="{{index}}" > 
+      <text class="text-{{currentTabIdx==index?'hl':''}}">{{qsItem.name}}</text>
+    </view>
+  </scroll-view>
+  <view class='rank-list'>
+    <view class="userinfo">
+        <view class='userinfo-avatar'>
+          <open-data type="userAvatarUrl" class="userinfo-avatar-img"></open-data>
+          <image bindtap="bindViewTap" class="userinfo-avatar-bg" src="../../images/RankPageImage/bg-avatar-boder.png" mode="cover"></image>
+          <image bindtap="bindViewTap" class="userinfo-avatar-decl" src="../../images/RankPageImage/hat.png" mode="cover" 
+          style="visibility:{{currentMyRankInfo.data.rank<=3?'show':'hidden'}}"></image>
+        </view>
+      <open-data type="userNickName" class='userinfo-nickname'></open-data>
+    </view>
+    <swiper class='tab-content' current="{{currentTabIdx}}" bindchange='swichNavTab'>
+      <swiper-item wx:for="{{QsQueq}}" class='tab-item'>
+      <image class='img-background' src='../../images/RankPageImage/background2.png'></image>
+          <view class='user-rank-show'>
+            <view class='data-group'>
+              <view class='data-label'>当前排名</view>
+              <view wx:if="{{!currentMyRankInfo.isEmpty}}" class='data-value'>
+                <text class='text-big'>{{currentMyRankInfo.data.rank}}</text>
+              </view>
+              <view wx:else class='data-value'>/</view>
+            </view>
+            <view class='data-group'>
+              <view class='data-label'>答题数量 </view>
+              <view wx:if="{{!currentMyRankInfo.isEmpty}}" class='data-value'>
+                <text class='text-big'>{{currentMyRankInfo.data.numOfCorrection}}</text>题
+              </view>
+              <view wx:else class='data-value'>/</view>
+            </view>
+            <view class='data-group'>
+              <view class='data-label'>答题耗时</view>
+                <view wx:if="{{!currentMyRankInfo.isEmpty}}" class='data-value'>
+                  <text class='text-big'>{{currentMyRankInfo.data.usedtime}}</text>秒
+                </view>
+                <view wx:else class='data-value'>/</view>
+              </view>
+          </view>
+          <view class='line-h'>
+            <image src='../../images/RankPageImage/h-line.png'></image>
+          </view> 
+          <scroll-view class='user-info-scroll'  scroll-y='true'>
+            <view wx:if="{{currentRanklist.hasData && currentRanklist.data.length == 0}}" class="no-data-helper">
+              <text>还没人赢取到限量周边免单券哦</text>
+              <text>聪明的你还在等什么?</text>
+            </view>
+            <block wx:else>
+              <view wx:for="{{currentRanklist.data}}" wx:for-item="userInfoItem" wx:for-index="userInfoIdx" 
+                class='user-info-group'>
+                <view class='user-info-rank'>
+                  <text class='text-big'>{{userInfoIdx + 1}}</text>
+                </view>
+                <view  class='user-info-avatar'>
+                  <!-- 排行榜用户头像 -->
+                  <image wx:if="{{userInfoItem.avatar!='default'}}" class="userinfo-avatar-img" 
+                    src="{{userInfoItem.avatar || 'error'}}" data-avatar-idx = "{{userInfoIdx}}"
+                    binderror="avatarError" ></image>
+                  <image wx:else class="userinfo-avatar-img" src="{{avatarDefault}}"
+                     data-avatar-idx = "{{userInfoIdx}}"></image>
+                </view>
+                <view class='user-info-nickname'>
+                  <text>{{userInfoItem.nickname}}</text>
+                </view>
+                <view class='user-info-numOfCorrection'>
+                  <text class='text-big'>{{userInfoItem.numOfCorrection}}</text>题
+                </view>
+                <view class='user-info-usedtime'>
+                  <text class='text-big'>{{userInfoItem.usedtime}}</text>秒
+                </view>
+              </view>
+            </block>
+          </scroll-view>
+        </swiper-item>
+    </swiper>
+  </view>
+  <view class='nav'>
+    <button wx:if="{{!currentMyRankInfo.isEmpty}}" class='nav-btn' open-type="share">
+      <image class='img-background' src='../../images/RankPageImage/button.png'></image>
+      <text>转发到微信群,查看我的排名</text>
+    </button>
+    <button wx:else class='nav-btn' bindtap='tabNavButton'>
+      <image class='img-background' src='../../images/RankPageImage/button.png'></image>
+      <text>去答题，赢周边</text>
+    </button>
+  </view>
+</view>

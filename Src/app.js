@@ -17,6 +17,18 @@ App({
   },
 
   onLaunch: function () {
+    var that = this;
+    wx.getSystemInfo({
+      success: function (res) {
+        that.globalData.clientHeight = res.windowHeight
+        that.globalData.clientWidth = res.windowWidth
+        that.globalData.statusBarHeight = res.statusBarHeight
+        that.globalData.model = res.model
+        console.log("xxxx", res)
+        console.log(res.screenHeight - res.windowHeight)
+      }
+    });
+
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -57,6 +69,8 @@ App({
   },
   
   globalData: {
-    userInfo: null
+    userInfo: null,
+    // dbConfig: { host: '118.25.208.124', port: 5001 }
+    dbConfig: { host: 'https://www.defphilip.com/', port: 80 }
   }
 })

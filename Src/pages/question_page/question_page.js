@@ -10,62 +10,7 @@ Page({
     answerTabBackgroundSrc: '../images/question_page/answer_tab_background.png',
 
     currentPage: 0,
-    problems: [{
-      "q_id": 188,
-      "qs_id": 1,
-      "q_content": "图中是创造101 中最终第7位出道的女孩，她是?",
-      //"q_pic": '../images/question_page/test_problem_pic.png',
-      "q_pic": null,
-      "options": [{
-        "opt_id": 420,
-        "opt_content": "赖美云",
-        "opt_correct": 1,
-        "cpt_pic": null
-      }, {
-        "opt_id": 421,
-        "opt_content": "紫宁",
-        "opt_correct": 0,
-        "cpt_pic": null
-      }, {
-        "opt_id": 422,
-        "opt_content": "杨芸晴",
-        "opt_correct": 0,
-        "cpt_pic": null
-      }, {
-        "opt_id": 423,
-        "opt_content": "傅菁",
-        "opt_correct": 0,
-        "cpt_pic": null
-      }]
-    },
-      {
-        "q_id": 189,
-        "qs_id": 1,
-        "q_content": "女孩，她是?",
-        "q_pic": '../images/question_page/test_problem_pic.png',
-        "options": [{
-          "opt_id": 420,
-          "opt_content": "A",
-          "opt_correct": 1,
-          "cpt_pic": null
-        }, {
-          "opt_id": 421,
-          "opt_content": "B",
-          "opt_correct": 0,
-          "cpt_pic": null
-        }, {
-          "opt_id": 422,
-          "opt_content": "C",
-          "opt_correct": 0,
-          "cpt_pic": null
-        }, {
-          "opt_id": 423,
-          "opt_content": "22423432",
-          "opt_correct": 0,
-          "cpt_pic": null
-        }]
-      }
-    ],
+    problems: [],
 
     tick: 0,
     timer: null,
@@ -121,7 +66,10 @@ Page({
     disccountList: [0.05, 0.08, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 1.00],
     goodsDiscountPrice:[],
 
-    questionCategoryName: ""
+    questionCategoryName: "",
+    totalTimeTimer: null,
+    totalTime: 0,
+    corretQuestionId : []
   },
   backgroundImageLoad: function (e) {
     var imageSize = util.imageResize(e);
@@ -162,6 +110,12 @@ Page({
     wx.showShareMenu({
       withShareTicket: true
     })
+
+    totalTimeTimer = setInterval(()=>{
+      that.setData({
+        totalTime: that.data.totalTime + 1
+      })
+    },1000)
   },
   onUnload : function(e){
     this.claer()
@@ -192,6 +146,19 @@ Page({
     }
   },
   onResult: function (result){
+    let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
+    let data = { 
+      user_id: 12360, 
+      qs_id: questionCatalogBriefData.qs_id,
+      total_correct: this.data.currentPage + result === false ? 0 : 1, 
+      used_time: this.data.totalTime, 
+      questions: this.data.corretQuestionId
+    }
+    network.post(network.hostGetQuestion, data, res => {
+      console.log("onResult")
+      console.log(res)
+    })
+
     if (result == false){
       this.setData({
         titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
@@ -220,6 +187,8 @@ Page({
       return
     }
 
+    corretQuestionId[currentPage] = this.data.problems[currentPage].q_id
+
     this.setData({
       currentPage: this.data.currentPage + 1
     })
@@ -227,6 +196,7 @@ Page({
     this.setNewTitle(this.data.currentPage + 1)
     this.resetAnswer()
     this.resetTimer()
+
   },
   setNewTitle : function(index){
     var strTitle = this.data.answerOriginalTitle;
@@ -322,6 +292,10 @@ Page({
   claer : function(){
     clearInterval(this.data.timer)
     this.data.timer = null
+
+    clearInterval(this.data.totalTimeTimer)
+    this.data.totalTimeTimer = null
+
     this.setData({
       answerTabClicked: -1,
       answerClicked: false,
@@ -329,6 +303,7 @@ Page({
       currentPage : 0,
       answerTitle : "",
       tick : 0,
+      corretQuestionId : []
     })
   }
 })

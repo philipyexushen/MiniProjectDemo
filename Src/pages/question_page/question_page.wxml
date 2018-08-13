@@ -74,7 +74,7 @@
   </view>
   <view class='bottom-inform-area'>
     <text style='font-size:small;'>{{questionCategoryName}}商品</text>
-    <text style='font-size:large;color:#d72647;font-weight:500'>立减{{disccountList[currentPage]}}%</text>
+    <text style='font-size:large;color:#d72647;font-weight:500'>立减{{disccountList[currentPage]*100}}%</text>
   </view>
 </view>
 <template is="resultPageDialog" data="{{show:showResultPageDialog, resultPageDialogBackgroundSrc:resultPageDialogBackgroundSrc, giftRollImageSrc:giftRollImageSrc,titleFirstLine:titleFirstLine,titleSecondLine:titleSecondLine,titleThirdLine:titleThirdLine}}" />

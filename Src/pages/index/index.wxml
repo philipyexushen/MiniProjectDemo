@@ -44,7 +44,7 @@
               <scroll-view class='award-view'>
                   <block wx:for="{{goods[index]}}" wx:key="*this" wx:for-index="goodsIndex">
                     <view style='height:80rpx;width:80rpx'>
-                      <image src='{{goods[index][goodsIndex].g_pic}}' style='height:80rpx;width:80rpx'></image>
+                      
                     </view>
                   </block>
                 </scroll-view>

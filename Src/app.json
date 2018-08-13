@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/question_page/question_page",
     "pages/help_page/help_page",
-    "pages/outsideWebkit/outsideWebkit"
+    "pages/outsideWebkit/outsideWebkit",
+    "pages/ranklist/ranklist"
   ],
   "window":{
     "backgroundTextStyle":"light",
