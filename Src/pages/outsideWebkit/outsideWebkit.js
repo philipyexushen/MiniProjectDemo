@@ -9,9 +9,9 @@ Page({
     link : ""
   },
 
-  onShow : function(){
+  onLoad : function(opt){
     this.setData({
-      link: util.getOutSideLink()
+      link: opt.url
     })
   },
 })

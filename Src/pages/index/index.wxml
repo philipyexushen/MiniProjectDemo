@@ -5,30 +5,46 @@
   <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;position:fixed;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
   <image class='help_image' src='{{helpImageSrc}}' bindtap='openHelpPage'></image>
   <view class="swiper-tab">
-    <view class="swiper-tab-item {{currentTab==0?'swiper-tab-item-active':''}}" data-current="0" bindtap="clickTab">
-    <image style='justify-content:center; position: relative;height: 10px; width: 10px;' src="{{currentTab==0 ? tinyCircleImageSrc : ''}}"></image>
-    综艺
-    </view>
-    <view class="swiper-tab-item {{currentTab==1?'swiper-tab-item-active':''}}" data-current="1" bindtap="clickTab">
-    <image style='justify-content:center; position: relative;height: 10px; width: 10px;' src="{{currentTab==1 ? tinyCircleImageSrc : ''}}"></image>
-    动漫
-    </view>
-    <view class="swiper-tab-item {{currentTab==2?'swiper-tab-item-active':''}}" data-current="2" bindtap="clickTab">
-   <image style='justify-content:center; position: relative;height: 10px; width: 10px;' src="{{currentTab==2 ? tinyCircleImageSrc : ''}}"></image>
-    影视
-    </view>
+    <block wx:for="{{tabName}}" wx:key="*this" wx:for-index="index">
+      <view id="mainPageTab{{index}}" class="swiper-tab-item {{currentTabIndex==index?'swiper-tab-item-active':''}}" data-current="{{index}}" bindtap="clickTab">
+      <image style='justify-content:center; position: relative;height: 10px; width: 10px;' src="{{currentTabIndex==index ? tinyCircleImageSrc : ''}}"></image>
+      {{item}}
+      </view>
+    </block>
   </view>
   <view class="page-body">
     <view class="swiper-page-section">
       <swiper next-margin='35px'
         autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"
-        style="height:286px;">
-        <block wx:for="{{background}}" wx:key="*this">
+        style="height:286px;" bindchange='onQuestionCatalogChange'
+        current='{{currentCatalogIndex}}'>
+        <block wx:for="{{tabContent[currentTabIndex]}}" wx:key="*this" wx:for-index="index">
           <swiper-item>
-            <view class="swiper-item {{item}}">
+            <view class="swiper-item">
               <image class='swiper-item-background' src='{{swiperBackgroundSrc}}' mode="cover"></image>
-              <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
-              <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openConversionGiftsPage'></image>
+              <view class='swiper-item-top'>
+                <text class='swiper-item-top-title'>{{tabName[currentTabIndex]}}挑战赛</text>
+                <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openConversionGiftsPage'></image>
+              </view>
+              <view class='swiper-item-middle'>
+              <image src='{{tabContent[currentTabIndex][index].qs_logo}}' class='swiper-logo' mode='widthFix'></image>
+              <text class='swiper-catalog-title'>{{tabContent[currentTabIndex][index].qs_tilte}}挑战赛</text>
+              <view class='swiper-catalog-sub-title-1'>
+                <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].answering_number*43432}}</text>
+                <text>人正在挑战</text>
+              </view>
+              <view class='swiper-catalog-sub-title-2'>
+                <text>仅剩</text>
+                <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].free_prizes_left}}</text>
+                <text>个免单名额</text>
+              </view>
+               <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
+              </view>
+              <scroll-view class='award-view'>
+                <block wx:for="{{goods}}" wx:key="*this" wx:for-index="index">
+                  <image src='{{goods[index].g_pic}}' style='height:40rpx;width:40rpx'></image>
+                </block>
+              </scroll-view>
             </view>
           </swiper-item>  
         </block>

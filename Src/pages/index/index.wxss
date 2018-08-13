@@ -63,20 +63,84 @@ button:last-child{
   z-index: -1;
   position: absolute
 }
+.swiper-item-top{
+  position: absolute;
+  width: 100%;
+  height: 120rpx;
+  justify-content: center;
+  align-items: center;
+  margin-left: 60rpx;
+  top: 3%;
+  z-index: 3;
+}
+.swiper-item-middle{
+  position: absolute;
+  width: 100%;
+  height: 40%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 60rpx;
+  top: 20%;
+  left: 5%;
+  z-index: 3;
+}
+.swiper-logo{
+  top: 10%;
+  position: absolute;
+  width: 160rpx;
+}
+.swiper-item-top-title{
+  position: relative;
+  width: 100%;
+  height: 60rpx;
+  margin-left: 2%;
+  font-weight: 600;
+  z-index: 3;
+  color: #2b2e2d
+}
 .swiper-item-background{
   position: absolute;
   height: 95%;
   width: 95%;
   margin-left: 5%;
 }
-
+.swiper-catalog-title{
+  position: absolute;
+  left: 28%;
+  top:18%;
+  font-size: larger;
+  font-weight: 600;
+  color: #2b2e2d;
+}
+.swiper-catalog-sub-title-1{
+  position: absolute;
+  display: flex;
+  left: 28%;
+  top:55%;
+  font-size: x-small;
+}
+.swiper-catalog-sub-title-2{
+  position: absolute;
+  left: 28%;
+  top:70%;
+  font-size: x-small;
+}
+.swiper-catalog-sub-title-hightlight{
+  color:#f36192
+}
 .challenge_image{
   justify-content:center;
   position: absolute;
   height: 31px;
   width: 59px;
-  margin-left: 65%;
-  margin-top: 30%
+  left: 60%;
+  bottom: 10%;
+  z-index: 3;
+}
+.award-view{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
 }
 .help_image{
   justify-content:right;
@@ -87,12 +151,13 @@ button:last-child{
   width: 20px;
 }
 .watch-ranking-list-image{
-  justify-content:center;
   position: absolute;
+  justify-content:center;
   height: 12px;
   width: 60px;
-  margin-left: 75%;
-  margin-top: 5%
+  left: 65%;
+  top: 12%;
+  z-index: 4;
 }
 .my-gifts-image{
   justify-content:center;

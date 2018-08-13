@@ -143,7 +143,7 @@
 .result-page-button::after{
   border: none
 }
-.bottom-area{
+.bottom-goods-area{
   width: 100%;
   position: absolute;
   bottom: 0%;
@@ -153,6 +153,17 @@
   text-align: center;
   justify-content: center;
   align-items: flex-end;
+}
+.bottom-inform-area{
+  width: 100%;
+  position: absolute;
+  bottom: 1%;
+  display: flex;
+  flex-direction: column;
+  margin: 0, 10rpx;
+  text-align: center;
+  justify-content: center;
+  align-items:center;
 }
 .bottom-goods-item-0{
   margin: 2%;

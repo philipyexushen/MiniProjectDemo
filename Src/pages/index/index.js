@@ -1,10 +1,10 @@
 // pages/swiper/swiper.js
 var util = require('../../utils/util.js');
+var network = require('../../network/requester.js');
 var app = getApp();
 
 Page({
   data: {
-    background: ['', '', ''],
     indicatorDots: true,
     vertical: false,
     autoplay: false,
@@ -25,11 +25,107 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    currentTab: 0,
     showGiftsPage: false,
 
     isDownloadingGiftsPage: false,
-    gifts_rolls: []
+    gifts_rolls: [],
+
+    // 标签名字，现在由前端写死
+    tabName: ['综艺', '动漫', '影视'],
+    currentTabIndex: 0,
+    currentCatalogIndex : 0,
+    tabContent: [],
+
+    goods: [
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+      {
+        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
+      },
+    ]
+  },
+
+  onLoad: function () {
+    var that = this
+
+    this.setData({
+      currentTabIndex : 0
+    })
+
+    for (var index = 0; index < this.data.tabName.length; index++){
+      var currentTabName = this.data.tabName[index]
+      let data = { question_channel: currentTabName }
+
+      network.post(network.hostGetQs, data, function (target, that, res) {
+        return function(res){
+          var tabContent = that.data.tabContent
+          tabContent[target] = res.data
+          that.setData({
+            tabContent: tabContent
+          })
+          let data = { qs_id: tabContent[target][0].qs_id, number:10  }
+          console.log(data)
+          network.post(network.hostGetGoods, data, function (target, that, res) {
+            return function(res){
+              console.log(res.data)
+              that.setData({
+                goods : res.data
+              })
+            }
+          }(target, that)
+          )
+        }
+      }(index,this))
+    }
+
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
   },
 
   imageLoad: function (e) {
@@ -77,36 +173,6 @@ Page({
     })
   },
 
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      console.log("fuck")
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-
   getUserInfo: function (e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
@@ -118,15 +184,15 @@ Page({
 
   // 按下挑战图片，打开答题页
   openQuesionPage: function(){
+    var curIndex = this.data.currentTabIndex
+    var curCatalogIndex = this.data.currentCatalogIndex
+    app.setCurrentQuestionCatalogBriefData(this.data.tabContent[curIndex][curCatalogIndex])
     wx.navigateTo({
       url: '../question_page/question_page'
     })
   },
   openConversionGiftsPage: function () {
-    util.setOutSideLink("http://mall.video.qq.com/home?&ptag=4_6.2.0.21726_copy")
-      wx.navigateTo({
-        url: '../outsideWebkit/outsideWebkit'
-      })
+    util.openShopPage()
   },
    openHelpPage: function () {
      console.log("openHelpPage call")
@@ -135,11 +201,14 @@ Page({
     })
   },
   clickTab: function (e) {
-    if (this.data.currentTab === e.target.dataset.current) {
+    if (this.data.currentTabIndex === e.target.dataset.current) {
       return false;
     } else {
+      console.log(e.target.dataset.current)
+      
       this.setData({
-        currentTab: e.target.dataset.current
+        currentTabIndex: e.target.dataset.current,
+        currentCatalogIndex : 0
       })
     }
   },
@@ -159,6 +228,11 @@ Page({
       showGiftsPage: !this.data.showGiftsPage
     });
   },
+  onQuestionCatalogChange: function(e){
+    this.setData({
+      currentCatalogIndex: e.detail.current
+    })
+  }
 })
 
 

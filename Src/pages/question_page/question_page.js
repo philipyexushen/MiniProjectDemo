@@ -1,5 +1,6 @@
 const util = require('../../utils/util.js')
 const network = require('../../network/requester.js')
+var app = getApp();
 
 Page({
   data: {
@@ -119,6 +120,8 @@ Page({
     ],
     disccountList: [0.05, 0.08, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 1.00],
     goodsDiscountPrice:[],
+
+    questionCategoryName: ""
   },
   backgroundImageLoad: function (e) {
     var imageSize = util.imageResize(e);
@@ -133,13 +136,19 @@ Page({
     this.resetTimer()
     this.setNewTitle(1)
 
-    let data = { user_id: 1, qs_name: "test" }
+    let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
+    this.setData({
+      questionCategoryName: questionCatalogBriefData.qs_tilte
+    })
+
+    let data = { user_id: 1, qs_name: this.data.questionCategoryName }
     //let data1 = { number: 4, qs_id: 1 }
     console.log(network.hostGetQuestion)
     network.post(network.hostGetQuestion, data, res => {
       that.setData({
         problems: res.data
       })
+      that.resetAnswer()
     })
 
     var goodsDiscountPrice = []
@@ -187,7 +196,7 @@ Page({
       this.setData({
         titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
         titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", this.data.fakeRank[this.data.currentPage]),
-        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
+        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", this.data.questionCategoryName),
         showResultPageDialog: true
       })
     }
@@ -195,7 +204,7 @@ Page({
       this.setData({
         titleFirstLine: "闯关成功！\n",
         titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", 99.99),
-        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
+        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", this.data.questionCategoryName),
         showResultPageDialog: true
       })
     }
@@ -216,27 +225,7 @@ Page({
     })
 
     this.setNewTitle(this.data.currentPage + 1)
-
-    var options = this.data.problems[this.data.currentPage].options
-    var total = options.length
-
-    console.log(total)
-    for (var index = 0; index < total;index++){
-      if (options[index].opt_correct == 1){
-          this.setData({
-            answerCorrect: index
-          })
-          break
-      }
-    }
-    this.setData({
-      answerTabClicked: -1,
-      answerClicked: false,
-      isChoiceCorrect: false
-    })
-
-    
-
+    this.resetAnswer()
     this.resetTimer()
   },
   setNewTitle : function(index){
@@ -266,7 +255,7 @@ Page({
   },
   onResultPageDialogCloseButtonClicked : function(e){
     // TODO: 要改为跳转到排行榜
-    wx.navigateBack({delta : 1})
+    //wx.navigateBack({delta : 1})
     this.setData({
       showResultPageDialog : false
     })
@@ -310,6 +299,25 @@ Page({
       goodsDiscountPrice[index] = Math.floor((1 - this.data.disccountList[this.data.currentPage]) * this.data.goodsInformation[index].price)
     }
     return goodsDiscountPrice
+  },
+  resetAnswer : function(){
+    var options = this.data.problems[this.data.currentPage].options
+    var total = options.length
+
+    console.log(total)
+    for (var index = 0; index < total; index++) {
+      if (options[index].opt_correct == 1) {
+        this.setData({
+          answerCorrect: index
+        })
+        break
+      }
+    }
+    this.setData({
+      answerTabClicked: -1,
+      answerClicked: false,
+      isChoiceCorrect: false
+    })
   },
   claer : function(){
     clearInterval(this.data.timer)
