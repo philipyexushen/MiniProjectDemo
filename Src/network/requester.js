@@ -1,8 +1,11 @@
 // 基础配置类
+let hostGetQuestion = 'https://www.defphilip.com/api/getquestion'
+let hostGetGoods = 'https://www.defphilip.com/api/getgoods'
+let hostGetQs = 'https://www.defphilip.com/api/getqs'
 
-function request(data, func) {
+function request(host, data, func) {
   let _config = {
-    host: 'http://118.25.208.124:5001/api/getquestion'
+    host: host
   }
 
   let url = data.url;
@@ -26,10 +29,13 @@ function get_api_setting(url, data) {
   return data.url = url, data;
 }
 
-function post(data, func) {
-  return request(get_api_setting('', data), func);
+function post(host, data, func) {
+  return request(host, get_api_setting('', data), func);
 }
 
 module.exports = {
-  post: post
+  post: post,
+  hostGetQuestion: hostGetQuestion,
+  hostGetGoods: hostGetGoods,
+  hostGetQs: hostGetQs
 }

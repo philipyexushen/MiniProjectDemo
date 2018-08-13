@@ -11,9 +11,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.0.4",
-	"appid": "wx31b309a135b10960",
-	"projectname": "MiniProjectDemo",
+	"libVersion": "2.2.2",
+	"appid": "wxe8b4e92b785c131f",
+	"projectname": "AnswerFight",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

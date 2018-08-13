@@ -19,26 +19,41 @@ function imageResize(e) {
   var originalWidth = e.detail.width;//图片原始宽
   var originalHeight = e.detail.height;//图片原始高
   var originalScale = originalHeight / originalWidth;//图片高宽比
-  console.log('originalWidth: ' + originalWidth)
-  console.log('originalHeight: ' + originalHeight)
+  //console.log('originalWidth: ' + originalWidth)
+  //console.log('originalHeight: ' + originalHeight)
   //获取屏幕宽高
   wx.getSystemInfo({
     success: function (res) {
       var windowWidth = res.windowWidth;
       var windowHeight = res.windowHeight;
       var windowscale = windowHeight / windowWidth;
-      console.log('windowWidth: ' + windowWidth)
-      console.log('windowHeight: ' + windowHeight)
+      //console.log('windowWidth: ' + windowWidth)
+      //console.log('windowHeight: ' + windowHeight)
+      //console.log('windowscale: ' + windowscale)
+      //console.log('originalHeight / originalWidth: ' + originalHeight / originalWidth)
       imageSize.imageWidth = windowWidth;
       imageSize.imageHeight = (windowWidth * originalHeight) / originalWidth;
     }
   })
-  console.log('缩放后的宽: ' + imageSize.imageWidth)
-  console.log('缩放后的高: ' + imageSize.imageHeight)
+  //console.log('缩放后的宽: ' + imageSize.imageWidth)
+  //console.log('缩放后的高: ' + imageSize.imageHeight)
   return imageSize;
+}
+
+function getGiftsDiscountRoll(){
+  return []
+}
+
+function openShopPage() {
+  var link = encodeURI("http://mall.video.qq.com/home?&ptag=4_6.2.0.21726_copy")
+  wx.navigateTo({
+    url: '../outsideWebkit/outsideWebkit?url=' + link
+  })
 }
 
 module.exports = {
   formatTime: formatTime,
-  imageResize: imageResize
+  imageResize: imageResize,
+  getGiftsDiscountRoll: getGiftsDiscountRoll,
+  openShopPage: openShopPage
 }

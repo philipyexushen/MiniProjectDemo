@@ -36,35 +36,7 @@ Page({
     currentCatalogIndex : 0,
     tabContent: [],
 
-    goods: [
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-      {
-        g_pic: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/101.png"
-      },
-    ]
+    goods: []
   },
 
   onLoad: function () {
@@ -89,9 +61,10 @@ Page({
           console.log(data)
           network.post(network.hostGetGoods, data, function (target, that, res) {
             return function(res){
-              console.log(res.data)
+              var goods = that.data.goods
+              goods[target] = res.data
               that.setData({
-                goods : res.data
+                goods: goods
               })
             }
           }(target, that)

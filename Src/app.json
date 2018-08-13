@@ -3,12 +3,13 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/question_page/question_page",
-    "pages/help_page/help_page"
+    "pages/help_page/help_page",
+    "pages/outsideWebkit/outsideWebkit"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "答题赢周边大作战",
     "navigationBarTextStyle":"black"
   }
 }

@@ -27,24 +27,27 @@
                 <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openConversionGiftsPage'></image>
               </view>
               <view class='swiper-item-middle'>
-              <image src='{{tabContent[currentTabIndex][index].qs_logo}}' class='swiper-logo' mode='widthFix'></image>
-              <text class='swiper-catalog-title'>{{tabContent[currentTabIndex][index].qs_tilte}}挑战赛</text>
-              <view class='swiper-catalog-sub-title-1'>
-                <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].answering_number*43432}}</text>
-                <text>人正在挑战</text>
-              </view>
-              <view class='swiper-catalog-sub-title-2'>
-                <text>仅剩</text>
-                <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].free_prizes_left}}</text>
-                <text>个免单名额</text>
-              </view>
+                <image src='{{tabContent[currentTabIndex][index].qs_logo}}' class='swiper-logo' mode='widthFix'></image>
+                <text class='swiper-catalog-title'>{{tabContent[currentTabIndex][index].qs_tilte}}挑战赛</text>
+                <view class='swiper-catalog-sub-title-1'>
+                  <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].answering_number*43432}}</text>
+                  <text>人正在挑战</text>
+                </view>
+                <view class='swiper-catalog-sub-title-2'>
+                  <text>仅剩</text>
+                  <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].free_prizes_left}}</text>
+                  <text>个免单名额</text>
+                </view>
                <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
+                
               </view>
               <scroll-view class='award-view'>
-                <block wx:for="{{goods}}" wx:key="*this" wx:for-index="index">
-                  <image src='{{goods[index].g_pic}}' style='height:40rpx;width:40rpx'></image>
-                </block>
-              </scroll-view>
+                  <block wx:for="{{goods[index]}}" wx:key="*this" wx:for-index="goodsIndex">
+                    <view style='height:80rpx;width:80rpx'>
+                      <image src='{{goods[index][goodsIndex].g_pic}}' style='height:80rpx;width:80rpx'></image>
+                    </view>
+                  </block>
+                </scroll-view>
             </view>
           </swiper-item>  
         </block>

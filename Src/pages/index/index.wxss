@@ -40,7 +40,7 @@ button:last-child{
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 80%;
+  bottom: 3%;
   left: 38%;
 }
 
@@ -141,6 +141,8 @@ button:last-child{
   position: absolute;
   display: flex;
   flex-direction: row;
+  left: 30%;
+  top: 62%
 }
 .help_image{
   justify-content:right;
@@ -165,7 +167,7 @@ button:last-child{
   height: 120rpx;
   width: 120rpx;
   left: 75%;
-  top: 85%
+  bottom: 5%
 }
 .swiper-tab{
     width: 100%;
@@ -177,7 +179,7 @@ button:last-child{
     display: flex;
     flex-flow: row;
     position: absolute;
-    margin-top: 47%;
+    top: 28%;
     box-sizing: border-box;
     padding: 0 80rpx;
 }
