@@ -2,9 +2,9 @@
 <!--index.wxml-->
 <view class="container" style=''>
   <image wx:if="{{model=='iPhone X'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphoneX.png" mode="top left"></image>
-  <image wx:if="{{model=='iPhone 7' || model=='iPhone 6'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7.png" mode="top left"></image>
-  <image wx:if="{{model=='iPhone 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone5.png" mode="top left"></image>
-  <image wx:if="{{model=='Nexus 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-Nexus5.png" mode="top left"></image>
+  <image wx:elif="{{model=='iPhone 7' || model=='iPhone 6'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7.png" mode="top left"></image>
+  <image wx:elif="{{model=='iPhone 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone5.png" mode="top left"></image>
+  <image wx:elif="{{model=='Nexus 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-Nexus5.png" mode="top left"></image>
   <image wx:else class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7plus.png" mode="top left"></image>
   <view class='title' >
     <text class='text-hl'>今日排行</text>
