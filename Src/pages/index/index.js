@@ -157,6 +157,14 @@ Page({
 
   // 按下挑战图片，打开答题页
   openQuesionPage: function(){
+    // 前端特判一下
+    if (this.data.currentTabIndex == 1 || this.data.currentTabIndex == 2){
+      wx.showModal({
+        content: '挑战赛尚未开放喔~敬请期待~',
+        showCancel :false
+      })
+      return;
+    }
     var curIndex = this.data.currentTabIndex
     var curCatalogIndex = this.data.currentCatalogIndex
     app.setCurrentQuestionCatalogBriefData(this.data.tabContent[curIndex][curCatalogIndex])

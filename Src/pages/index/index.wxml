@@ -41,13 +41,13 @@
                <image class='challenge_image' src='{{challangeImageSrc}}' mode="cover" bindtap='openQuesionPage'></image>
                 
               </view>
-              <scroll-view class='award-view'>
+              <view class='award-view'>
                   <block wx:for="{{goods[index]}}" wx:key="*this" wx:for-index="goodsIndex">
-                    <view style='height:80rpx;width:80rpx'>
-                      
+                    <view style='height:60rpx;width:60rpx;margin-left:6rpx;margin-right:6rpx;'>
+                      <image src='{{goods[index][goodsIndex].g_pic}}' style='height:60rpx;width:60rpx;	'></image>
                     </view>
                   </block>
-                </scroll-view>
+                </view>
             </view>
           </swiper-item>  
         </block>

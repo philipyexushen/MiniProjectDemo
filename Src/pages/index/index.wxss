@@ -141,6 +141,8 @@ button:last-child{
   position: absolute;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
+  width: 63%;
   left: 30%;
   top: 62%
 }
