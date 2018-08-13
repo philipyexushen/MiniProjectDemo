@@ -111,7 +111,7 @@ Page({
       withShareTicket: true
     })
 
-    totalTimeTimer = setInterval(()=>{
+    this.data.totalTimeTimer = setInterval(()=>{
       that.setData({
         totalTime: that.data.totalTime + 1
       })
@@ -146,19 +146,6 @@ Page({
     }
   },
   onResult: function (result){
-    let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
-    let data = { 
-      user_id: 12360, 
-      qs_id: questionCatalogBriefData.qs_id,
-      total_correct: this.data.currentPage + result === false ? 0 : 1, 
-      used_time: this.data.totalTime, 
-      questions: this.data.corretQuestionId
-    }
-    network.post(network.hostGetQuestion, data, res => {
-      console.log("onResult")
-      console.log(res)
-    })
-
     if (result == false){
       this.setData({
         titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
@@ -187,7 +174,7 @@ Page({
       return
     }
 
-    corretQuestionId[currentPage] = this.data.problems[currentPage].q_id
+    this.data.corretQuestionId[this.data.currentPage] = this.data.problems[this.data.currentPage].q_id
 
     this.setData({
       currentPage: this.data.currentPage + 1
@@ -224,8 +211,9 @@ Page({
     }, 1000)
   },
   onResultPageDialogCloseButtonClicked : function(e){
-    // TODO: 要改为跳转到排行榜
-    //wx.navigateBack({delta : 1})
+    wx.redirectTo({
+      url: '../ranklist/ranklist'
+    })
     this.setData({
       showResultPageDialog : false
     })
@@ -304,6 +292,22 @@ Page({
       answerTitle : "",
       tick : 0,
       corretQuestionId : []
+    })
+  },
+  postResultToServer :function(){
+    let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
+    let data = {
+      user_id: 12360,
+      qs_id: questionCatalogBriefData.qs_id,
+      total_correct: this.data.currentPage + (result === false ? 0 : 1),
+      used_time: this.data.totalTime,
+      questions: this.data.corretQuestionId
+    }
+
+    console.log(data)
+    network.post(network.hostPostAnswerQuestion, data, res => {
+      console.log("onResult")
+      console.log(res)
     })
   }
 })

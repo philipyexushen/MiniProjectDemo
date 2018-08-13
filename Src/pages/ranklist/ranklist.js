@@ -48,7 +48,7 @@ Page({
     clientHeight: app.globalData.clientHeight,
     model : app.globalData.model
   },
-  dbTest: "http://" + app.globalData.dbConfig.host + ":" + app.globalData.dbConfig.port,
+  dbTest: app.globalData.dbConfig.host + ":" + app.globalData.dbConfig.port,
   //事件处理函数
   initData : function() {
     var that = this;

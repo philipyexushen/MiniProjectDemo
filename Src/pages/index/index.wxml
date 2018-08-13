@@ -24,7 +24,7 @@
               <image class='swiper-item-background' src='{{swiperBackgroundSrc}}' mode="cover"></image>
               <view class='swiper-item-top'>
                 <text class='swiper-item-top-title'>{{tabName[currentTabIndex]}}挑战赛</text>
-                <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openConversionGiftsPage'></image>
+                <image class='watch-ranking-list-image' src='{{watchRankingListImageSrc}}' mode="cover" bindtap='openRankList'></image>
               </view>
               <view class='swiper-item-middle'>
                 <image src='{{tabContent[currentTabIndex][index].qs_logo}}' class='swiper-logo' mode='widthFix'></image>

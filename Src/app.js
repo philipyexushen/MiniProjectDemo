@@ -71,6 +71,6 @@ App({
   globalData: {
     userInfo: null,
     // dbConfig: { host: '118.25.208.124', port: 5001 }
-    dbConfig: { host: 'https://www.defphilip.com/', port: 80 }
+    dbConfig: { host: 'https://www.defphilip.com', port: '' }
   }
 })

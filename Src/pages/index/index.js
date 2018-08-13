@@ -167,6 +167,12 @@ Page({
   openConversionGiftsPage: function () {
     util.openShopPage()
   },
+  openRankList :function(){
+    console.log("openRankList call")
+    wx.navigateTo({
+      url: '../ranklist/ranklist'
+    })
+  },
    openHelpPage: function () {
      console.log("openHelpPage call")
       wx.navigateTo({
