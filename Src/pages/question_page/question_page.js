@@ -9,7 +9,6 @@ Page({
     answerTabBackgroundSrc: '../images/question_page/answer_tab_background.png',
 
     currentPage: 0,
-    disccountList: [0.05, 0.08, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 1.00],
     problems: [{
       "q_id": 188,
       "qs_id": 1,
@@ -67,7 +66,7 @@ Page({
       }
     ],
 
-    tick: 10,
+    tick: 0,
     timer: null,
 
     answerOriginalTitle: "-第%s题-",
@@ -97,7 +96,29 @@ Page({
     titleSecondLine: "",
     titleThirdLine: "",
 
-    fakeRank : [10,15,20,25,30,50,60,80,90,99]
+    fakeRank : [10,15,20,25,30,50,60,80,90,99],
+
+    // 底部商品展示相关
+    goodsInformation :[
+      {
+        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods1.png',
+        price: 38,
+      },
+      {
+        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods2.png',
+        price: 72,
+      },
+      {
+        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods3.png',
+        price: 168,
+      },
+      {
+        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods4.png',
+        price: 108,
+      },
+    ],
+    disccountList: [0.05, 0.08, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 1.00],
+    goodsDiscountPrice:[],
   },
   backgroundImageLoad: function (e) {
     var imageSize = util.imageResize(e);
@@ -121,6 +142,14 @@ Page({
       })
     })
 
+    var goodsDiscountPrice = []
+    for (var index = 0; index < this.data.goodsInformation.length; index++){
+      goodsDiscountPrice[index] = this.data.goodsInformation[index].price
+    }
+    this.setData({
+      goodsDiscountPrice: goodsDiscountPrice
+    })
+
     wx.showShareMenu({
       withShareTicket: true
     })
@@ -140,42 +169,55 @@ Page({
         var that = this
         this.data.isChoiceCorrect = true
         setTimeout(() => {
-          that.onSuccessful(that)
+          that.onSuccessful()
         }, 1000)
       }else{
         var that = this
         this.data.isChoiceCorrect = false
         setTimeout(()=>{
-          that.onError()
+          that.onResult(false)
         }, 1000)
       }
 
       clearInterval(this.data.timer)
     }
   },
-  onError: function (){
-    console.log("no!")
-    this.setData({
-      titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
-      titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", this.data.fakeRank[this.data.currentPage]),
-      titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
-      showResultPageDialog : true
-    })
+  onResult: function (result){
+    if (result == false){
+      this.setData({
+        titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
+        titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", this.data.fakeRank[this.data.currentPage]),
+        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
+        showResultPageDialog: true
+      })
+    }
+    else{
+      this.setData({
+        titleFirstLine: "闯关成功！\n",
+        titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", 99.99),
+        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", "创造101"),
+        showResultPageDialog: true
+      })
+    }
   },
-  onSuccessful: function (that){
-    // 全答对了！
-    if (that.data.currentPage + 1 == that.data.problems.length){
+  onSuccessful: function (){
+    this.setData({
+      goodsDiscountPrice: this.getUpdateDiscountPrice()
+    })
 
+    // 全答对了！
+    if (this.data.currentPage + 1 == this.data.problems.length){
+      this.onResult(true)
       return
     }
 
-    that.setData({
-      currentPage: that.data.currentPage + 1
+    this.setData({
+      currentPage: this.data.currentPage + 1
     })
 
-    that.setNewTitle(that.data.currentPage + 1)
+    this.setNewTitle(this.data.currentPage + 1)
 
-    var options = that.data.problems[that.data.currentPage].options
+    var options = this.data.problems[this.data.currentPage].options
     var total = options.length
 
     console.log(total)
@@ -187,13 +229,15 @@ Page({
           break
       }
     }
-    that.setData({
+    this.setData({
       answerTabClicked: -1,
       answerClicked: false,
       isChoiceCorrect: false
     })
 
-    that.resetTimer()
+    
+
+    this.resetTimer()
   },
   setNewTitle : function(index){
     var strTitle = this.data.answerOriginalTitle;
@@ -216,15 +260,18 @@ Page({
         clearInterval(that.data.timer)
         that.data.timer = null
 
-        this.onError()
+        this.onResult(false)
       }
     }, 1000)
   },
   onResultPageDialogCloseButtonClicked : function(e){
     // TODO: 要改为跳转到排行榜
     wx.navigateBack({delta : 1})
+    this.setData({
+      showResultPageDialog : false
+    })
   },
-  onGiftRollImageClicked: function (e) {
+  onGiftRollImageClicked: function () {
     util.openShopPage()
   },
   openConversionGiftsPage: function () {
@@ -256,6 +303,13 @@ Page({
         console.log(res)
       }
     }
+  },
+  getUpdateDiscountPrice:function(){
+    var goodsDiscountPrice = []
+    for (var index = 0; index < this.data.goodsInformation.length; index++) {
+      goodsDiscountPrice[index] = Math.floor((1 - this.data.disccountList[this.data.currentPage]) * this.data.goodsInformation[index].price)
+    }
+    return goodsDiscountPrice
   },
   claer : function(){
     clearInterval(this.data.timer)

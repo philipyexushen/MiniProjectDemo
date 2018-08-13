@@ -60,5 +60,17 @@
         </block>
       </view>
   </view>
+  <view class='bottom-area'>
+    <block wx:for="{{goodsInformation}}" wx:key="*this" wx:for-index="index" >
+      <view class='bottom-goods-item-{{index}}'>
+        <image src='../images/question_page/goods_decorator.png' class='bottom-goods-item-background'></image>
+        <view class='bottom-goods-item-image-view'>
+            <image src='{{goodsInformation[index].p_url}}' class='bottom-goods-item-image'></image>
+        </view>
+        <text class='bottom-goods-item-discount-price'>¥  {{goodsDiscountPrice[index]}}</text>
+        <text wx:if="{{currentPage != 0}}" class='bottom-goods-item-original-price'>¥  {{goodsInformation[index].price}}</text>
+      </view>
+    </block>
+  </view>
 </view>
 <template is="resultPageDialog" data="{{show:showResultPageDialog, resultPageDialogBackgroundSrc:resultPageDialogBackgroundSrc, giftRollImageSrc:giftRollImageSrc,titleFirstLine:titleFirstLine,titleSecondLine:titleSecondLine,titleThirdLine:titleThirdLine}}" />
