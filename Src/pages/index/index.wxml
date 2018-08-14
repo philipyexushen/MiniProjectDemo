@@ -1,6 +1,25 @@
 <import src="../common/head.wxml" />
 <import src="../common/dialog.wxml" />
 
+<template name="giftsDialogView">
+  <view class="dialog {{ showGiftsPage ? 'dialog_show' : '' }}">
+    <view class="dialog_mask" bindtap="onClickedGiftsDialogView" />
+    <view class="dialog_container">
+      <!--  //此区域自定义视图  -->
+      <scroll-view wx:if="{{!isDownloadingGiftsPage && gifts_rolls!=null && gifts_rolls.length != 0}}" class="flex_Center" style="height:500rpx;background:#fff2d3;" scroll-y="true">
+        <block wx:for="{{gifts_rolls}}" wx:key="*this"> 
+          <view class='gifts_page_item'>
+            <image src='{{item}}' style='width:100%;height: 100%;'></image>
+          </view>
+        </block>
+      </scroll-view>
+      <view wx:else style="height:600rpx;">
+          <image src='{{emptyRollsPageSrc}}' style='width:100%;height: 100%;'></image>
+      </view>
+    </view>
+  </view>
+</template>
+
 <view class="page">
   <image class='background-image' style="width: {{backgroundImageWidth}}px; height: {{backgroundImageHeight}}px;position:fixed;" src="{{backgroundSrc}}" bindload="imageLoad"></image>
   <image class='help_image' src='{{helpImageSrc}}' bindtap='openHelpPage'></image>
@@ -30,7 +49,7 @@
                 <image src='{{tabContent[currentTabIndex][index].qs_logo}}' class='swiper-logo' mode='widthFix'></image>
                 <text class='swiper-catalog-title'>{{tabContent[currentTabIndex][index].qs_tilte}}挑战赛</text>
                 <view class='swiper-catalog-sub-title-1'>
-                  <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].answering_number*43432}}</text>
+                  <text class='swiper-catalog-sub-title-hightlight'>{{tabContent[currentTabIndex][index].answering_number*10000}}</text>
                   <text>人正在挑战</text>
                 </view>
                 <view class='swiper-catalog-sub-title-2'>
@@ -42,12 +61,17 @@
                 
               </view>
               <view class='award-view'>
-                  <block wx:for="{{goods[index]}}" wx:key="*this" wx:for-index="goodsIndex">
-                    <view style='height:60rpx;width:60rpx;margin-left:6rpx;margin-right:6rpx;'>
-                      <image src='{{goods[index][goodsIndex].g_pic}}' style='height:60rpx;width:60rpx;	'></image>
-                    </view>
-                  </block>
-                </view>
+                <block wx:for="{{goods[currentTabIndex][index]}}" wx:key="*this" wx:for-index="goodsIndex">
+                  <view style='height:60rpx;width:60rpx;margin-left:6rpx;margin-right:6rpx;'>
+                    <image src='{{goods[currentTabIndex][index][goodsIndex].g_pic}}' style='height:60rpx;width:60rpx;	'></image>
+                  </view>
+                </block>
+              </view>
+              <view class='real-time-fight-reuslt-view'>
+                <image src='https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/fake_portrait.png' style='height:30rpx;width:30rpx'></image>
+                <text style='font-size:x-small;margin-left:10rpx;font-weight:600'>米咯 zang</text>
+                <text style='font-size:x-small;margin-left:20rpx;font-weight:600'>闯到第7关获得一张3折券</text>
+              </view>
             </view>
           </swiper-item>  
         </block>

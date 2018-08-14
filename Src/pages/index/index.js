@@ -36,7 +36,7 @@ Page({
     currentCatalogIndex : 0,
     tabContent: [],
 
-    goods: []
+    goods: [],
   },
 
   onLoad: function () {
@@ -57,18 +57,29 @@ Page({
           that.setData({
             tabContent: tabContent
           })
-          let data = { qs_id: tabContent[target][0].qs_id, number:10  }
-          console.log(data)
-          network.post(network.hostGetGoods, data, function (target, that, res) {
-            return function(res){
-              var goods = that.data.goods
-              goods[target] = res.data
-              that.setData({
-                goods: goods
-              })
-            }
-          }(target, that)
-          )
+
+          for (var catalogIndex = 0; catalogIndex < tabContent[target].length; catalogIndex++){
+            let data = { qs_id: tabContent[target][catalogIndex].qs_id, number: 10 }
+            network.post(network.hostGetGoods, data, function (target, catalogIndex, that, res) {
+              return function (res) {
+                var goods = that.data.goods
+                var goodsTarget = goods[target]
+
+                if (goodsTarget == undefined){
+                  goods[target] = []
+                  goodsTarget = goods[target]
+                }
+
+                goodsTarget[catalogIndex] = res.data
+                that.setData({
+                  goods: goods
+                })
+                console.log("fuck")
+                console.log(goods)
+              }
+            }(target, catalogIndex, that)
+            )
+          }
         }
       }(index,this))
     }

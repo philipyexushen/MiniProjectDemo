@@ -146,6 +146,12 @@ button:last-child{
   left: 30%;
   top: 62%
 }
+.real-time-fight-reuslt-view{
+  position: absolute;
+  display: flex;
+  left: 30%;
+  top: 80%;
+}
 .help_image{
   justify-content:right;
   position: absolute;
