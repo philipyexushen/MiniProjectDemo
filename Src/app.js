@@ -16,7 +16,8 @@ App({
     return questionCatalogBriefData
   },
 
-  onLaunch: function () {
+  onLaunch: function (options) {
+    this.globalData.scene = options.scene // 记录
     var that = this;
     wx.getSystemInfo({
       success: function (res) {
@@ -53,6 +54,8 @@ App({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
+              console.log("login")
+              console.log(res)
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
 
@@ -72,5 +75,25 @@ App({
     userInfo: null,
     // dbConfig: { host: '118.25.208.124', port: 5001 }
     dbConfig: { host: 'https://www.defphilip.com', port: '' }
-  }
+  },
+  getUserId: function (loginCode, userInfo, callback) {
+    var rawData = JSON.parse(userInfo.rawData)
+    wx.request({
+      url: this.globalData.dbConfig.host + '/api/userlogin',
+      data: {
+        js_code: loginCode,
+        user_url: rawData.avatarUrl,
+        nickname: rawData.nickName,
+        appid: 'wxe8b4e92b785c131f',
+        secret: '6cfbeb90f1dfc03dd0308a1d67b6ec92'
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      method: "POST",
+      success: function (res) {
+        callback(res)
+      }
+    })
+  },
 })

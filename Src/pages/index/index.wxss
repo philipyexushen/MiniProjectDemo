@@ -31,7 +31,7 @@ button:last-child{
 .swiper-page-section{
   width: 100%;
   box-sizing: border-box;
-  margin-top: 60%;
+  top: 35%;
   position: absolute
 }
 
@@ -41,13 +41,13 @@ button:last-child{
   align-items: center;
   position: absolute;
   bottom: 3%;
-  left: 38%;
+  left: 43%;
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
+  width: 96rpx;
+  height: 96rpx;
+  margin: 10rpx;
   border-radius: 50%;
   overflow: hidden
 }
@@ -137,6 +137,23 @@ button:last-child{
   bottom: 10%;
   z-index: 3;
 }
+.challenge_button{
+  justify-content:center;
+  position: absolute;
+  height: 31px;
+  width: 59px;
+  left: 60%;
+  bottom: 10%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left:0;
+  padding-right:0;
+  z-index: 3;
+  background-color: transparent
+}
+.challenge_button::after{
+  border: none
+}
 .award-view{
   position: absolute;
   display: flex;
@@ -172,10 +189,10 @@ button:last-child{
 .my-gifts-image{
   justify-content:center;
   position: absolute;
-  height: 120rpx;
-  width: 120rpx;
-  left: 75%;
-  bottom: 5%
+  height: 96rpx;
+  width: 96rpx;
+  left: 80%;
+  bottom: 8%
 }
 .swiper-tab{
     width: 100%;
@@ -187,7 +204,7 @@ button:last-child{
     display: flex;
     flex-flow: row;
     position: absolute;
-    top: 28%;
+    top: 26%;
     box-sizing: border-box;
     padding: 0 80rpx;
 }

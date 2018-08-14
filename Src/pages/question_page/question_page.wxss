@@ -12,9 +12,9 @@
 }
 
 .userinfo-avatar {
-  width: 64rpx;
-  height: 64rpx;
-  margin: 20rpx;
+  width: 36rpx;
+  height: 36rpx;
+  margin: 5rpx;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -95,13 +95,13 @@
   overflow: hidden;
 }
 .answer-tab-normal{
-  background-color: #9de9cd;
+  background-color: #efe3b8;
 }
 .answer-tab-correct{
-  background-color: #05fd26;
+  background-color: #2de3ba;
 }
 .answer-tab-error{
-  background-color: #ff1313;
+  background-color: #ff9b53;
 }
 .dialog_mask {
   position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;background: rgba(0, 0, 0, 0.5);display: none;

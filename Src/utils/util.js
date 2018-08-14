@@ -14,6 +14,20 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+function getScreenScale(){
+  var windowScale = 0
+  wx.getSystemInfo({
+    success: function (res) {
+      var windowWidth = res.windowWidth;
+      var windowHeight = res.windowHeight;
+      windowScale = windowHeight / windowWidth;
+    }
+  })
+
+  console.log(windowScale)
+  return windowScale
+}
+
 function imageResize(e) {
   var imageSize = {};
   var originalWidth = e.detail.width;//图片原始宽
@@ -45,7 +59,7 @@ function getGiftsDiscountRoll(){
 }
 
 function openShopPage() {
-  var link = encodeURI("http://mall.video.qq.com/home?&ptag=4_6.2.0.21726_copy")
+  var link = encodeURI("https://mall.video.qq.com/home?&ptag=4_6.2.0.21726_copy")
   wx.navigateTo({
     url: '../outsideWebkit/outsideWebkit?url=' + link
   })
@@ -55,5 +69,6 @@ module.exports = {
   formatTime: formatTime,
   imageResize: imageResize,
   getGiftsDiscountRoll: getGiftsDiscountRoll,
-  openShopPage: openShopPage
+  openShopPage: openShopPage,
+  getScreenScale: getScreenScale
 }

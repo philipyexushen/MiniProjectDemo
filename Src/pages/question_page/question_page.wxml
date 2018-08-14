@@ -13,11 +13,11 @@
           <view style='position:relative;margin:30rpx;text-align: center;justify-content:center; align-items:center;margin-top:40rpx'>
             <text style='font-size:large'>{{titleFirstLine}}</text>
             <text style='font-size:large;color: #d6a000;'>{{titleSecondLine}}</text>
-            <text style='font-size:large'>{{titleThirdLine}}\n</text>
+            <text style='font-size:large'>获得一张{{answerQuestionResponse.p_name}}\n</text>
             <text style='font-size:small'>分享到微信群，可以再获得一次挑战机会喔~\n</text>
           </view>
           <view style='width:100%;text-align:center;z-index: 11;'>
-            <image src='{{giftRollImageSrc}}' style="width:500rpx;" mode='widthFix' bindtap='onGiftRollImageClicked'></image>
+            <image src='{{answerQuestionResponse.p_pic}}' style="width:500rpx;" mode='widthFix' bindtap='onGiftRollImageClicked'></image>
           </view>
           <view style='width:80%;text-align:center;align-items:center;justify-content:center; z-index: 11;display:flex;margin:30rpx;'>
             <button open-type="share" class='result-page-button'>分享得机会</button>
@@ -65,10 +65,10 @@
       <view class='bottom-goods-item-{{index}}'>
         <image src='../images/question_page/goods_decorator.png' class='bottom-goods-item-background'></image>
         <view class='bottom-goods-item-image-view'>
-            <image src='{{goodsInformation[index].p_url}}' class='bottom-goods-item-image'></image>
+            <image src='{{goodsInformation[index].g_pic}}' class='bottom-goods-item-image'></image>
         </view>
         <text class='bottom-goods-item-discount-price'>¥  {{goodsDiscountPrice[index]}}</text>
-        <text wx:if="{{currentPage != 0}}" class='bottom-goods-item-original-price'>¥  {{goodsInformation[index].price}}</text>
+        <text wx:if="{{currentPage != 0}}" class='bottom-goods-item-original-price'>¥  {{goodsInformation[index].g_price}}</text>
       </view>
     </block>
   </view>
@@ -77,4 +77,4 @@
     <text style='font-size:large;color:#d72647;font-weight:500'>立减{{disccountList[currentPage]*100}}%</text>
   </view>
 </view>
-<template is="resultPageDialog" data="{{show:showResultPageDialog, resultPageDialogBackgroundSrc:resultPageDialogBackgroundSrc, giftRollImageSrc:giftRollImageSrc,titleFirstLine:titleFirstLine,titleSecondLine:titleSecondLine,titleThirdLine:titleThirdLine}}" />
+<template is="resultPageDialog" data="{{show:showResultPageDialog, resultPageDialogBackgroundSrc:resultPageDialogBackgroundSrc, giftRollImageSrc:giftRollImageSrc,titleFirstLine:titleFirstLine,titleSecondLine:titleSecondLine,titleThirdLine:titleThirdLine,answerQuestionResponse:answerQuestionResponse}}" />

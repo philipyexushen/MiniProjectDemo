@@ -36,42 +36,51 @@ Page({
 
     titleFirstLineOriginal:"您挑战到了第%s关\n",
     titleSecondLineOriginal: "超过%s%的人\n",
-    titleThirdLineOriginal: "获得一张%s点赞优惠券",
+    titleThirdLineOriginal: "获得一张",
 
     titleFirstLine: "",
     titleSecondLine: "",
     titleThirdLine: "",
 
-    fakeRank : [10,15,20,25,30,50,60,80,90,99],
+    fakeRank : [8.66, 18.12, 20.99, 38.48, 46.98, 53.34, 65.89, 76.45, 88.56, 99.99],
 
     // 底部商品展示相关
-    goodsInformation :[
-      {
-        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods1.png',
-        price: 38,
-      },
-      {
-        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods2.png',
-        price: 72,
-      },
-      {
-        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods3.png',
-        price: 168,
-      },
-      {
-        p_url: 'https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/test_goods4.png',
-        price: 108,
-      },
-    ],
+    goodsInformation :[],
     disccountList: [0.05, 0.08, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 1.00],
     goodsDiscountPrice:[],
 
     questionCategoryName: "",
     totalTimeTimer: null,
     totalTime: 0,
-    answeredQuestionId : []
+    answeredQuestionId : [],
+
+    answerQuestionResponse : {}
   },
   backgroundImageLoad: function (e) {
+    var scale = util.getScreenScale()
+    console.log("scale" + scale)
+    if (scale <= 1.60) {
+      // 超小机型
+
+    } else if (scale <= 1.609) {
+      // ip6
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/qu_bakcground-ip6.png"
+      })
+
+    } else if (scale <= 1.6231884057971016) {
+      //ip6 plus
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/qu_bakcground-ip6p.png"
+      })
+
+    } else {
+      //ipx
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/qu_bakcground-ipx.png"
+      })
+    }
+    
     var imageSize = util.imageResize(e);
     this.setData({
       backgroundImageWidth: imageSize.imageWidth,
@@ -89,24 +98,38 @@ Page({
       questionCategoryName: questionCatalogBriefData.qs_tilte
     })
 
-    let data = { user_id: 1, qs_name: this.data.questionCategoryName }
+    let data = { user_id: 12360, qs_name: this.data.questionCategoryName }
     //let data1 = { number: 4, qs_id: 1 }
     console.log(network.hostGetQuestion)
-    network.post(network.hostGetQuestion, data, res => {
-      that.setData({
-        problems: res.data,
-      })
-      that.resetTimer()
-      that.resetAnswer()
-    })
+    network.post(network.hostGetQuestion, data, function(that, res){
+      return function(res){
+        that.setData({
+          problems: res.data,
+        })
+        that.resetTimer()
+        that.resetAnswer()
 
-    var goodsDiscountPrice = []
-    for (var index = 0; index < this.data.goodsInformation.length; index++){
-      goodsDiscountPrice[index] = this.data.goodsInformation[index].price
-    }
-    this.setData({
-      goodsDiscountPrice: goodsDiscountPrice
-    })
+        let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
+        let data = { qs_id: questionCatalogBriefData.qs_id, number: 4 }
+        network.post(network.hostGetGoods, data, function (res){
+          console.log(res.data)
+          that.setData({
+            goodsInformation : res.data
+          })
+
+          var goodsDiscountPrice = []
+          for (var index = 0; index < that.data.goodsInformation.length; index++) {
+            goodsDiscountPrice[index] = that.data.goodsInformation[index].g_price
+          }
+          console.log(goodsDiscountPrice)
+          that.setData({
+            goodsDiscountPrice: goodsDiscountPrice
+          })
+        })
+      }
+    }(this))
+
+
 
     wx.showShareMenu({
       withShareTicket: true
@@ -162,7 +185,7 @@ Page({
       this.setData({
         titleFirstLine: "闯关成功！\n",
         titleSecondLine: this.data.titleSecondLineOriginal.replace("%s", 99.99),
-        titleThirdLine: this.data.titleThirdLineOriginal.replace("%s", this.data.questionCategoryName),
+        titleThirdLine: this.data.titleThirdLineOriginal + '',
         showResultPageDialog: true
       })
     }
@@ -256,7 +279,7 @@ Page({
   getUpdateDiscountPrice:function(){
     var goodsDiscountPrice = []
     for (var index = 0; index < this.data.goodsInformation.length; index++) {
-      goodsDiscountPrice[index] = Math.floor((1 - this.data.disccountList[this.data.currentPage]) * this.data.goodsInformation[index].price)
+      goodsDiscountPrice[index] = Math.floor((1 - this.data.disccountList[this.data.currentPage]) * this.data.goodsInformation[index].g_price)
     }
     return goodsDiscountPrice
   },
@@ -306,8 +329,16 @@ Page({
       questions: this.data.answeredQuestionId
     }
 
+    var that = this
     network.post(network.hostPostAnswerQuestion, data, res => {
-      console.log("hostPostAnswerQuestion" + res.errMsg)
+      console.log("hostPostAnswerQuestion")
+      console.log(res.data)
+      that.setData({
+        answerQuestionResponse: res.data
+      })
+
+      console.log(this.data.answerQuestionResponse)
+
     })
   }
 })

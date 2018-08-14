@@ -31,17 +31,18 @@ const parseMyrankData = function(data) {
 const app = getApp()
 
 const config = {
-  avatarDefault: "../../images/RankPageImage/avatar-default.png"
+  avatarDefault: "../../images/RankPageImage/avatar-default.png",
+  tabIdxDefault: 0,
 }
 Page({
   data: {
-    user_id: 12345,
+    user_id: 12360,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    authUserInfo : false,
     avatarDefault: config.avatarDefault,
     NavTableScorell : 0,
-    currentTabIdx : 0,
     currentTabName: "",
-    QsQueq : { id : 0, name : ''},
+    QsQueq : [{ id : 0, name : ''}],
     currentMyRankInfo: {hasData: false },
     currentRanklist: { hasData : false},
     clientWidth: app.globalData.clientWidth,
@@ -50,7 +51,44 @@ Page({
   },
   dbTest: app.globalData.dbConfig.host + ":" + app.globalData.dbConfig.port,
   //事件处理函数
-  initData : function() {
+  onLoad: function (options) {
+    var data = {
+      qs_id: parseInt(options.qs_id) || 1,
+    }
+    this.initData(data);
+    var that = this;
+    // 查看是否授权
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function (res) {
+              app.getUserId(app.globalData.loginCode, res, function(res) {
+                if (res['status'] == -1) {
+                  that.setData({
+                    authUserInfo: true
+                  })
+                } else {
+                  that.setData({
+                    user_id: res.user_id || 12345
+                  })
+                }
+              })
+            }
+          })
+          that.setData({
+            authUserInfo: res.authSetting['scope.userInfo']
+          })
+        }
+      }
+    })
+    // 分享
+    wx.showShareMenu({
+      withShareTicket: true //要求小程序返回分享目标信息
+    })
+  },
+  initData: function (data) {
     var that = this;
     this.getQsQueq(function(QsQueq, error){
       if(!error) {
@@ -64,7 +102,10 @@ Page({
             that.addMyRankInfoData(myRankInfo)
           })
         })
-        that.setCurrentTableIdx(that.data.currentTabIdx)
+        var currentTabIdx = QsQueq.map(e => e.id).indexOf(data.qs_id)
+        console.log(QsQueq, data.qs_id)
+        if (currentTabIdx == -1) currentTabIdx = config.tabIdxDefault
+        that.setCurrentTableIdx(currentTabIdx)
       }
     })
     console.log(that.data)
@@ -72,9 +113,9 @@ Page({
   getQsQueq : function(callback) {
     wx.request({
       url: this.dbTest + "/api/getqsall",
-      data: {"desc" : "get tablelist"},
+      data: {},
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded'
       },
       dataType : "json",
       method : "POST",
@@ -114,7 +155,6 @@ Page({
       dataObj["myRankInfoData[" + tableIdx + "].isEmpty"] = myRankInfo.data.rank == undefined;
       this.setData(dataObj);
     }
-
   },
   getRankListData : function(qs, callback) {
     wx.request({
@@ -148,13 +188,15 @@ Page({
     }  
   },
   setCurrentTableIdx: function (currentTabIdx) {
+    if (currentTabIdx == this.data.currentTabIdx) return
+
     var that = this;
     var currentTabName = that.data.QsQueq[currentTabIdx];
-
+    
     if (!(that.data.ranklistData && that.data.ranklistData[currentTabIdx])) {
-      console.log("request data : ")
       that.getRankListData(currentTabName, function (ranklist, error) {
         if (!error) {
+          currentTabIdx = that.data.currentTabIdx;
           that.addRanklistData(ranklist);
           that.setData({
             currentTabIdx: currentTabIdx,
@@ -165,22 +207,11 @@ Page({
         }
       })
     }
-    console.log(" data : ", this.data)
     that.setData({
       currentTabIdx: currentTabIdx,
       currentTabName: currentTabName,
       currentMyRankInfo: that.data.myRankInfoData[currentTabIdx] || {hasData : false},
       currentRanklist: that.data.ranklistData[currentTabIdx] || {hasData : false},
-    })
-  },
-  onLoad: function () {
-    wx.getUserInfo({
-      
-    })
-    this.initData();
-    var that = this;
-    wx.showShareMenu({
-      withShareTicket: true //要求小程序返回分享目标信息
     })
   },
   onShareAppMessage: function (res) {
@@ -190,7 +221,7 @@ Page({
     }
     return {
       title: '答题赢周边',
-      path: '/pages/ranklist/ranklist',
+      path: '/pages/ranklist/ranklist?',
       success : function(res) {
         wx.getShareInfo({
           shareTicket: res.shareTickets[0],
@@ -227,15 +258,30 @@ Page({
       })
     })
   },
-  tabNavButton : function(e) {
-    wx.navigateTo({
-      url: '/pages/index/index',
-    })
+  navigateToIndex : function(e) {
+    console.log("scene :", app.globalData.scene )
+    var backScenes = [1007, 1008, 1044, 1074, 1074]
+    if (backScenes.includes(app.globalData.scene)) {
+      // 消息卡片
+      wx.redirectTo({
+        url: '/pages/index/index',
+      })
+    } else {
+      // 非消息卡片
+      wx.navigateBack({
+        url: '/pages/index/index',
+      })
+    }
   },
   avatarError : function(e) {
     var avatarIdx = e.currentTarget.dataset.avatarIdx;
     var dataObj = new Object();
     dataObj["currentRanklist.data[" + avatarIdx + "].avatar"] = "default";
     this.setData(dataObj);
+  },
+  bindGetUserInfo : function() {
+    wx.reLaunch({
+      url: '/pages/ranklist/ranklist',
+    })
   }
 })

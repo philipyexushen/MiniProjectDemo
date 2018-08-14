@@ -15,7 +15,7 @@ Page({
     backgroundImageHeight: 0,
     backgroundSrc: '../images/background.png',
     swiperBackgroundSrc: '../images/column_swiper.png',
-    challangeImageSrc:'../images/challenge.png',
+    challangeImageSrc: '../images/challenge.png',
     helpImageSrc: '../images/help.png',
     watchRankingListImageSrc: '../images/watch_ranking_list.png',
     tinyCircleImageSrc: '../images/tiny_circle.png',
@@ -33,7 +33,7 @@ Page({
     // 标签名字，现在由前端写死
     tabName: ['综艺', '动漫', '影视'],
     currentTabIndex: 0,
-    currentCatalogIndex : 0,
+    currentCatalogIndex: 0,
     tabContent: [],
 
     goods: [],
@@ -43,29 +43,29 @@ Page({
     var that = this
 
     this.setData({
-      currentTabIndex : 0
+      currentTabIndex: 0
     })
 
-    for (var index = 0; index < this.data.tabName.length; index++){
+    for (var index = 0; index < this.data.tabName.length; index++) {
       var currentTabName = this.data.tabName[index]
       let data = { question_channel: currentTabName }
 
       network.post(network.hostGetQs, data, function (target, that, res) {
-        return function(res){
+        return function (res) {
           var tabContent = that.data.tabContent
           tabContent[target] = res.data
           that.setData({
             tabContent: tabContent
           })
 
-          for (var catalogIndex = 0; catalogIndex < tabContent[target].length; catalogIndex++){
+          for (var catalogIndex = 0; catalogIndex < tabContent[target].length; catalogIndex++) {
             let data = { qs_id: tabContent[target][catalogIndex].qs_id, number: 10 }
             network.post(network.hostGetGoods, data, function (target, catalogIndex, that, res) {
               return function (res) {
                 var goods = that.data.goods
                 var goodsTarget = goods[target]
 
-                if (goodsTarget == undefined){
+                if (goodsTarget == undefined) {
                   goods[target] = []
                   goodsTarget = goods[target]
                 }
@@ -79,7 +79,7 @@ Page({
             )
           }
         }
-      }(index,this))
+      }(index, this))
     }
 
     if (app.globalData.userInfo) {
@@ -111,6 +111,30 @@ Page({
   },
 
   imageLoad: function (e) {
+    var scale = util.getScreenScale()
+    console.log("scale" + scale)
+    if (scale <= 1.60) {
+      // 超小机型
+
+    } else if (scale <= 1.609) {
+      // ip6
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/background-ip6.png"
+      })
+
+    } else if (scale <= 1.6231884057971016) {
+      //ip6 plus
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/background-ip6p.png"
+      })
+
+    } else {
+      //ipx
+      this.setData({
+        backgroundSrc: "https://miniprojpic-1253852788.cos.ap-guangzhou.myqcloud.com/background-ipx.png"
+      })
+    }
+
     var imageSize = util.imageResize(e);
     this.setData({
       backgroundImageWidth: imageSize.imageWidth,
@@ -165,12 +189,12 @@ Page({
   },
 
   // 按下挑战图片，打开答题页
-  openQuesionPage: function(){
+  openQuestionPage: function () {
     // 前端特判一下
-    if (this.data.currentTabIndex == 1 || this.data.currentTabIndex == 2){
+    if (this.data.currentTabIndex == 1 || this.data.currentTabIndex == 2) {
       wx.showModal({
         content: '挑战赛尚未开放喔~敬请期待~',
-        showCancel :false
+        showCancel: false
       })
       return;
     }
@@ -184,16 +208,16 @@ Page({
   openConversionGiftsPage: function () {
     util.openShopPage()
   },
-  openRankList :function(){
+  openRankList: function () {
     console.log("openRankList call")
     wx.navigateTo({
-      url: '../ranklist/ranklist'
+      url: '../ranklist/ranklist?qs_id=' + 1
     })
   },
-   openHelpPage: function () {
-     console.log("openHelpPage call")
-      wx.navigateTo({
-        url: '../help_page/help_page'
+  openHelpPage: function () {
+    console.log("openHelpPage call")
+    wx.navigateTo({
+      url: '../help_page/help_page'
     })
   },
   clickTab: function (e) {
@@ -201,33 +225,65 @@ Page({
       return false;
     } else {
       console.log(e.target.dataset.current)
-      
+
       this.setData({
         currentTabIndex: e.target.dataset.current,
-        currentCatalogIndex : 0
+        currentCatalogIndex: 0
       })
     }
   },
   onGiftsImageClick: function (e) {
     console.log("onGiftsImageClick")
-    this.isDownloadingGiftsPage = true
     this.setData({
       showGiftsPage: !this.data.showGiftsPage
     });
 
-    //test
-    this.gifts_rolls = util.getGiftsDiscountRoll()
-    this.isDownloadingGiftsPage = false
+    let data = { user_id: 12360 }
+    var that = this
+    network.post(network.hostGetUserprizes, data, res => {
+      that.setData({
+        gifts_rolls: res.data
+      });
+    })
   },
   onClickedGiftsDialogView: function () {
     this.setData({
       showGiftsPage: !this.data.showGiftsPage
     });
   },
-  onQuestionCatalogChange: function(e){
+  onQuestionCatalogChange: function (e) {
     this.setData({
       currentCatalogIndex: e.detail.current
     })
+  },
+  getUserInfo: function (e) {
+    if (e.detail.errMsg === "getUserInfo:fail auth deny") {
+      console.log("deny!!!!")
+      wx.showModal({
+        content: "您选择了拒绝授权，排行记录将无法上传到服务器哦~",
+        showCancel: false
+      });
+      return;
+    }
+
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+
+    var user_id = e.detail.userInfo
+    var user_url = e.detail.userInfo.avatarUrl
+    var nickName = e.detail.userInfo.nickName
+
+    /*
+    let data = { user_id: 23, nickname: nickName, user_url: user_url }
+    network.post(network.hostPostUserRegister, data, res=>{
+      console.log("chanllange")
+      console.log(res)
+    })
+    */
   }
 })
 

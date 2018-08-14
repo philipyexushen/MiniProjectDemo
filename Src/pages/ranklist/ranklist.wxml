@@ -1,10 +1,11 @@
 <!--pages/ranklist/ranklist.wxml-->
 <!--index.wxml-->
 <view class="container" style=''>
-  <image wx:if="{{model=='iPhone X'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphoneX.png" mode="top left"></image>
-  <image wx:elif="{{model=='iPhone 7' || model=='iPhone 6'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7.png" mode="top left"></image>
-  <image wx:elif="{{model=='iPhone 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone5.png" mode="top left"></image>
-  <image wx:elif="{{model=='Nexus 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-Nexus5.png" mode="top left"></image>
+  <image wx:if="{{model.startsWith('iPhone X') || model == 'iPhone X' || (clientHeight == 724)}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphoneX.png" mode="top left"></image>
+  <image wx:elif="{{model.startsWith('iPhone 7') || model == 'iPhone 7' || model.startsWith('iPhone 6') || model == 'iPhone 6'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7.png" mode="top left"></image>
+  <image wx:elif="{{model.startsWith('iPhone 5') || model == 'iPhone 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone5.png" mode="top left"></image>
+  <image wx:elif="{{model.startsWith('Nexus 5') || model == 'Nexus 5'}}" class="img-background" src="../../images/RankPageImage/bg-rank2-Nexus5.png" mode="top left"></image>
+  <image wx:elif="{{model.startsWith('iPhone 7s') || model == 'iPhone 7s'}} || model.startsWith('iPhone 5s')}}" class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7plus.png" mode="scaleToFill"></image>
   <image wx:else class="img-background" src="../../images/RankPageImage/bg-rank2-iphone7plus.png" mode="top left"></image>
   <view class='title' >
     <text class='text-hl'>今日排行</text>
@@ -88,13 +89,23 @@
     </swiper>
   </view>
   <view class='nav'>
-    <button wx:if="{{!currentMyRankInfo.isEmpty}}" class='nav-btn' open-type="share">
-      <image class='img-background' src='../../images/RankPageImage/button.png'></image>
-      <text>转发到微信群,查看我的排名</text>
-    </button>
-    <button wx:else class='nav-btn' bindtap='tabNavButton'>
-      <image class='img-background' src='../../images/RankPageImage/button.png'></image>
-      <text>去答题，赢周边</text>
-    </button>
+
+    <block wx:if="{{!authUserInfo}}">
+      <button wx:if="{{canIUse}}" class='nav-btn' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+        <image class='img-background' src='../../images/RankPageImage/button.png'></image>
+        <text>授权获取登陆信息</text>
+      </button>
+      <view wx:else>请升级微信版本</view>
+    </block>
+    <block wx:else>
+      <button wx:if="{{!currentMyRankInfo.isEmpty}}" class='nav-btn' open-type="share">
+        <image class='img-background' src='../../images/RankPageImage/button.png'></image>
+        <text>转发到微信群,查看我的排名</text>
+      </button>
+      <button wx:else class='nav-btn' bindtap='navigateToIndex'>
+        <image class='img-background' src='../../images/RankPageImage/button.png'></image>
+        <text>去答题，赢周边</text>
+      </button>
+    </block>
   </view>
 </view>

@@ -3,6 +3,8 @@ let hostGetQuestion = 'https://www.defphilip.com/api/getquestion'
 let hostGetGoods = 'https://www.defphilip.com/api/getgoods'
 let hostGetQs = 'https://www.defphilip.com/api/getqs'
 let hostPostAnswerQuestion = 'https://www.defphilip.com/api/answerquestion'
+let hostPostUserRegister = 'https://www.defphilip.com/api/userregister'
+let hostGetUserprizes = 'https://www.defphilip.com/api/getuserprizes'
 
 function request(host, data, func) {
   let _config = {
@@ -38,5 +40,7 @@ module.exports = {
   hostGetQuestion: hostGetQuestion,
   hostGetGoods: hostGetGoods,
   hostGetQs: hostGetQs,
-  hostPostAnswerQuestion: hostPostAnswerQuestion
+  hostPostAnswerQuestion: hostPostAnswerQuestion,
+  hostPostUserRegister: hostPostUserRegister,
+  hostGetUserprizes: hostGetUserprizes
 }
