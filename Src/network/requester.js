@@ -26,7 +26,6 @@ function request(host, data, func) {
 function get_api_setting(url, data) {
   console.log(url)
   console.log(data)
-  console.log(data.url)
   return data.url = url, data;
 }
 

@@ -74,8 +74,6 @@ Page({
                 that.setData({
                   goods: goods
                 })
-                console.log("fuck")
-                console.log(goods)
               }
             }(target, catalogIndex, that)
             )

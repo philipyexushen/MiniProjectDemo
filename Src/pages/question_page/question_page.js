@@ -69,7 +69,7 @@ Page({
     questionCategoryName: "",
     totalTimeTimer: null,
     totalTime: 0,
-    corretQuestionId : []
+    answeredQuestionId : []
   },
   backgroundImageLoad: function (e) {
     var imageSize = util.imageResize(e);
@@ -81,7 +81,7 @@ Page({
   onLoad: function (e) {
     console.log("onShow question_page");
     var that = this
-    this.resetTimer()
+
     this.setNewTitle(1)
 
     let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
@@ -94,8 +94,9 @@ Page({
     console.log(network.hostGetQuestion)
     network.post(network.hostGetQuestion, data, res => {
       that.setData({
-        problems: res.data
+        problems: res.data,
       })
+      that.resetTimer()
       that.resetAnswer()
     })
 
@@ -127,6 +128,8 @@ Page({
         answerClicked: true
       })
 
+      this.data.answeredQuestionId[this.data.currentPage] = this.data.problems[this.data.currentPage].q_id
+
       if (this.data.answerTabClicked == this.data.answerCorrect){
         this.data.isChoiceCorrect = true
         var that = this
@@ -146,6 +149,7 @@ Page({
     }
   },
   onResult: function (result){
+    this.postResultToServer(result)
     if (result == false){
       this.setData({
         titleFirstLine: this.data.titleFirstLineOriginal.replace("%s", this.data.currentPage + 1),
@@ -173,8 +177,6 @@ Page({
       this.onResult(true)
       return
     }
-
-    this.data.corretQuestionId[this.data.currentPage] = this.data.problems[this.data.currentPage].q_id
 
     this.setData({
       currentPage: this.data.currentPage + 1
@@ -291,23 +293,21 @@ Page({
       currentPage : 0,
       answerTitle : "",
       tick : 0,
-      corretQuestionId : []
+      answeredQuestionId : []
     })
   },
-  postResultToServer :function(){
+  postResultToServer: function (result){
     let questionCatalogBriefData = app.getCurrentQuestionCatalogBriefData()
     let data = {
       user_id: 12360,
       qs_id: questionCatalogBriefData.qs_id,
       total_correct: this.data.currentPage + (result === false ? 0 : 1),
       used_time: this.data.totalTime,
-      questions: this.data.corretQuestionId
+      questions: this.data.answeredQuestionId
     }
 
-    console.log(data)
     network.post(network.hostPostAnswerQuestion, data, res => {
-      console.log("onResult")
-      console.log(res)
+      console.log("hostPostAnswerQuestion" + res.errMsg)
     })
   }
 })
